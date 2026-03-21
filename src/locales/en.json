@@ -1,0 +1,69 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "heritage": "Heritage",
+    "projects": "Projects",
+    "media": "Media Library",
+    "education": "Educational Content",
+    "events": "Events",
+    "contact": "Contact"
+  },
+  "home": {
+    "hero_title": "Ziya Nuri",
+    "hero_subtitle": "Spiritual and Educational Center",
+    "latest_news": "Latest News",
+    "our_projects": "Our Projects",
+    "stats_title": "Achievements",
+    "view_all": "View All",
+    "read_more": "Read More"
+  },
+  "about": {
+    "title": "About the Center",
+    "history": "History",
+    "mission": "Mission & Strategy",
+    "structure": "Structure",
+    "leadership": "Leadership"
+  },
+  "heritage": {
+    "title": "Heritage",
+    "historical": "Historical Sites",
+    "monuments": "Monuments",
+    "traditions": "National Traditions",
+    "cuisine": "National Cuisine"
+  },
+  "projects": {
+    "title": "Projects",
+    "completed": "Completed",
+    "current": "Current Projects",
+    "grants": "Competitions & Grants"
+  },
+  "media": {
+    "title": "Media Library",
+    "photos": "Photo Gallery",
+    "videos": "Videos",
+    "audio": "Audio",
+    "books": "E-Books"
+  },
+  "contact": {
+    "title": "Contact",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "send_message": "Send Message",
+    "name": "Your Name",
+    "message": "Your Message",
+    "submit": "Submit",
+    "success": "Message sent successfully!"
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "social": "Social Media"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "back": "Back",
+    "search": "Search"
+  }
+}

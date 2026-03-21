@@ -1,0 +1,69 @@
+{
+  "nav": {
+    "home": "Bosh sahifa",
+    "about": "Markaz haqida",
+    "heritage": "Meros haqida",
+    "projects": "Loyihalar",
+    "media": "Mediateka",
+    "education": "Tarbiyaviy kontent",
+    "events": "Tadbirlar",
+    "contact": "Aloqa"
+  },
+  "home": {
+    "hero_title": "Ziya Nuri",
+    "hero_subtitle": "Ma'naviy-ma'rifiy markaz",
+    "latest_news": "So'nggi yangiliklar",
+    "our_projects": "Bizning loyihalar",
+    "stats_title": "Yutuqlar",
+    "view_all": "Barchasini ko'rish",
+    "read_more": "To'liq o'qish"
+  },
+  "about": {
+    "title": "Markaz haqida",
+    "history": "Tarix",
+    "mission": "Missiya va strategiya",
+    "structure": "Tuzilma",
+    "leadership": "Rahbariyat"
+  },
+  "heritage": {
+    "title": "Meros haqida",
+    "historical": "Tarixiy joylar",
+    "monuments": "Yodgorliklar",
+    "traditions": "Milliy an'analar",
+    "cuisine": "Milliy oshxona"
+  },
+  "projects": {
+    "title": "Loyihalar",
+    "completed": "Amalga oshirilganlar",
+    "current": "Joriy loyihalar",
+    "grants": "Konkurslar va grantlar"
+  },
+  "media": {
+    "title": "Mediateka",
+    "photos": "Fotogalereya",
+    "videos": "Videolar",
+    "audio": "Audiolar",
+    "books": "Elektron kitoblar"
+  },
+  "contact": {
+    "title": "Aloqa",
+    "address": "Manzil",
+    "phone": "Telefon",
+    "email": "Email",
+    "send_message": "Xabar yuborish",
+    "name": "Ismingiz",
+    "message": "Xabaringiz",
+    "submit": "Yuborish",
+    "success": "Xabaringiz yuborildi!"
+  },
+  "footer": {
+    "rights": "Barcha huquqlar himoyalangan",
+    "social": "Ijtimoiy tarmoqlar"
+  },
+  "common": {
+    "loading": "Yuklanmoqda...",
+    "error": "Xatolik",
+    "back": "Orqaga",
+    "search": "Qidirish"
+  }
+}

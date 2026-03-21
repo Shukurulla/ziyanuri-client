@@ -1,0 +1,69 @@
+{
+  "nav": {
+    "home": "Bas bet",
+    "about": "Oraylıq haqqında",
+    "heritage": "Mıras haqqında",
+    "projects": "Joybarlalar",
+    "media": "Mediateka",
+    "education": "Tarbiyaviy kontent",
+    "events": "Ilajlar",
+    "contact": "Baylanıs"
+  },
+  "home": {
+    "hero_title": "Ziya Nuri",
+    "hero_subtitle": "Ruwxıy-ağartıwshılıq oraylığı",
+    "latest_news": "Soñğı jañalıqlar",
+    "our_projects": "Bizdiñ joybarlalar",
+    "stats_title": "Jetiskenlikler",
+    "view_all": "Barlığın kóriw",
+    "read_more": "Tolıq oqıw"
+  },
+  "about": {
+    "title": "Oraylıq haqqında",
+    "history": "Tariyxı",
+    "mission": "Missiya hám strategiya",
+    "structure": "Struktura",
+    "leadership": "Basshılıq"
+  },
+  "heritage": {
+    "title": "Mıras haqqında",
+    "historical": "Tariyxıy jaylalar",
+    "monuments": "Yadgorlikler",
+    "traditions": "Milliy dástúrler",
+    "cuisine": "Milliy asxana"
+  },
+  "projects": {
+    "title": "Joybarlalar",
+    "completed": "Ámelge asırılğanlar",
+    "current": "Házirgiler",
+    "grants": "Konkurslar hám grantlar"
+  },
+  "media": {
+    "title": "Mediateka",
+    "photos": "Fotogalereya",
+    "videos": "Videolar",
+    "audio": "Audiolar",
+    "books": "Elektron kitaplar"
+  },
+  "contact": {
+    "title": "Baylanıs",
+    "address": "Mánzil",
+    "phone": "Telefon",
+    "email": "Email",
+    "send_message": "Xabar jiberiw",
+    "name": "Atıñız",
+    "message": "Xabarıñız",
+    "submit": "Jiberiw",
+    "success": "Xabarıñız jiberildi!"
+  },
+  "footer": {
+    "rights": "Barlıq huqıqlar qorğalğan",
+    "social": "Sociallıq tarmaqlar"
+  },
+  "common": {
+    "loading": "Júklenip atır...",
+    "error": "Qátelik",
+    "back": "Artqa",
+    "search": "Izlew"
+  }
+}
