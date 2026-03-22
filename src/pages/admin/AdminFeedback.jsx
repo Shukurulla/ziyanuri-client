@@ -25,7 +25,7 @@ export default function AdminFeedback() {
         {items.length > 0 ? (
           <div className="divide-y divide-gray-100">
             {items.map((item) => (
-              <div key={item.id} onClick={() => { setSelected(item); if (!item.read) markRead(item.id); }} className={`flex items-start gap-4 px-5 py-4 cursor-pointer hover:bg-gray-50/50 transition-colors ${!item.read ? "bg-primary-50/30" : ""}`}>
+              <div key={item._id} onClick={() => { setSelected(item); if (!item.read) markRead(item._id); }} className={`flex items-start gap-4 px-5 py-4 cursor-pointer hover:bg-gray-50/50 transition-colors ${!item.read ? "bg-primary-50/30" : ""}`}>
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${!item.read ? "bg-primary-100 text-primary-600" : "bg-gray-100 text-gray-400"}`}>
                   {!item.read ? <HiMail className="w-5 h-5" /> : <HiMailOpen className="w-5 h-5" />}
                 </div>

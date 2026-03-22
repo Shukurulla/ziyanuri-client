@@ -7,26 +7,27 @@ import {
 } from "react-icons/hi";
 import api from "../api";
 
-const categories = ["historical", "monument", "tradition", "cuisine"];
-
 export default function Heritage() {
   const { t, i18n } = useTranslation();
   const [items, setItems] = useState([]);
   const [filter, setFilter] = useState("");
+  const [categories, setCategories] = useState([]);
   const lang = i18n.language;
   const tr = (item) => item.translations?.find((t) => t.lang === lang) || item.translations?.[0] || {};
+  const catName = (slug) => {
+    const cat = categories.find(c => c.slug === slug);
+    const catTr = cat?.translations?.find(t => t.lang === lang) || cat?.translations?.[0];
+    return catTr?.name || slug;
+  };
 
   useEffect(() => {
     const params = filter ? { category: filter } : {};
     api.get("/heritage", { params }).then((r) => setItems(r.data)).catch(() => {});
   }, [filter]);
 
-  const categoryLabels = {
-    historical: t("heritage.historical"),
-    monument: t("heritage.monuments"),
-    tradition: t("heritage.traditions"),
-    cuisine: t("heritage.cuisine"),
-  };
+  useEffect(() => {
+    api.get("/categories", { params: { type: "heritage" } }).then((r) => setCategories(r.data)).catch(() => {});
+  }, []);
 
   const categoryIcons = {
     historical: HiOfficeBuilding,
@@ -72,18 +73,18 @@ export default function Heritage() {
               <HiCollection className="w-4 h-4" /> {t("home.view_all")}
             </button>
             {categories.map((c) => {
-              const Icon = categoryIcons[c];
+              const Icon = categoryIcons[c.slug] || HiCollection;
               return (
                 <button
-                  key={c}
-                  onClick={() => setFilter(c)}
+                  key={c._id}
+                  onClick={() => setFilter(c.slug)}
                   className={`px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
-                    filter === c
+                    filter === c.slug
                       ? "bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/25"
                       : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 hover:border-accent-500/50"
                   }`}
                 >
-                  <Icon className="w-4 h-4" /> {categoryLabels[c]}
+                  <Icon className="w-4 h-4" /> {catName(c.slug)}
                 </button>
               );
             })}
@@ -117,7 +118,7 @@ export default function Heritage() {
 
                     <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
                       <span className="bg-white/90 backdrop-blur-sm text-gray-700 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5">
-                        <CatIcon className="w-3.5 h-3.5 text-primary-500" /> {categoryLabels[item.category]}
+                        <CatIcon className="w-3.5 h-3.5 text-primary-500" /> {catName(item.category)}
                       </span>
                     </div>
                   </div>

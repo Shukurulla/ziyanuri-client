@@ -1,14 +1,13 @@
 import { useState, useRef } from "react";
-import { HiUpload, HiLink, HiX } from "react-icons/hi";
+import { HiPhotograph, HiX, HiCloudUpload } from "react-icons/hi";
 import api from "../../api";
 
 export default function ImageUpload({ value, onChange, label = "Rasm" }) {
-  const [mode, setMode] = useState("file"); // "file" or "url"
   const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
   const fileRef = useRef(null);
 
-  const handleFile = async (e) => {
-    const file = e.target.files?.[0];
+  const handleFile = async (file) => {
     if (!file) return;
     setUploading(true);
     try {
@@ -22,81 +21,51 @@ export default function ImageUpload({ value, onChange, label = "Rasm" }) {
       alert("Fayl yuklanmadi");
     }
     setUploading(false);
-    e.target.value = "";
+    if (fileRef.current) fileRef.current.value = "";
   };
 
-  const clear = () => {
-    onChange("");
-    if (fileRef.current) fileRef.current.value = "";
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDragOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file?.type.startsWith("image/")) handleFile(file);
   };
 
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label className="block text-sm font-medium text-gray-700 mb-1.5">{label}</label>
 
-      {/* Mode toggle */}
-      <div className="flex gap-1 mb-2">
-        <button
-          type="button"
-          onClick={() => setMode("file")}
-          className={`flex items-center gap-1 px-3 py-1 rounded text-xs ${
-            mode === "file" ? "bg-primary-500 text-white" : "bg-gray-100 text-gray-600"
-          }`}
-        >
-          <HiUpload size={14} /> Fayl yuklash
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode("url")}
-          className={`flex items-center gap-1 px-3 py-1 rounded text-xs ${
-            mode === "url" ? "bg-primary-500 text-white" : "bg-gray-100 text-gray-600"
-          }`}
-        >
-          <HiLink size={14} /> URL kiritish
-        </button>
-      </div>
-
-      {/* Input */}
-      {mode === "file" ? (
-        <div className="flex items-center gap-2">
-          <input
-            ref={fileRef}
-            type="file"
-            accept="image/*"
-            onChange={handleFile}
-            disabled={uploading}
-            className="block w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-primary-50 file:text-primary-600 hover:file:bg-primary-100 disabled:opacity-50"
-          />
-          {uploading && <span className="text-xs text-gray-400">Yuklanmoqda...</span>}
+      {value ? (
+        <div className="relative group rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+          <img src={value} alt="" className="w-full h-40 object-cover" onError={(e) => { e.target.src = ""; e.target.className = "hidden"; }} />
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
+            <button type="button" onClick={() => fileRef.current?.click()} className="px-3 py-1.5 bg-white rounded-lg text-xs font-medium text-gray-700 hover:bg-gray-100">
+              Almashtirish
+            </button>
+            <button type="button" onClick={() => onChange("")} className="p-1.5 bg-red-500 rounded-lg text-white hover:bg-red-600">
+              <HiX className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       ) : (
-        <input
-          type="text"
-          placeholder="https://... yoki /uploads/..."
-          value={value || ""}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full px-3 py-2 border rounded-lg text-sm"
-        />
-      )}
-
-      {/* Preview */}
-      {value && (
-        <div className="mt-2 relative inline-block">
-          <img
-            src={value}
-            alt="preview"
-            className="h-24 rounded-lg object-cover border"
-            onError={(e) => (e.target.style.display = "none")}
-          />
-          <button
-            type="button"
-            onClick={clear}
-            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-0.5"
-          >
-            <HiX size={14} />
-          </button>
+        <div
+          onClick={() => fileRef.current?.click()}
+          onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+          onDragLeave={() => setDragOver(false)}
+          onDrop={handleDrop}
+          className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all ${
+            dragOver ? "border-primary-500 bg-primary-50" : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+          } ${uploading ? "opacity-50 pointer-events-none" : ""}`}
+        >
+          <HiCloudUpload className={`w-8 h-8 mx-auto mb-2 ${dragOver ? "text-primary-500" : "text-gray-300"}`} />
+          <p className="text-sm text-gray-500">
+            {uploading ? "Yuklanmoqda..." : "Rasm yuklash yoki shu yerga tashlang"}
+          </p>
+          <p className="text-xs text-gray-400 mt-1">PNG, JPG, WEBP</p>
         </div>
       )}
+
+      <input ref={fileRef} type="file" accept="image/*" onChange={(e) => handleFile(e.target.files?.[0])} className="hidden" />
     </div>
   );
 }

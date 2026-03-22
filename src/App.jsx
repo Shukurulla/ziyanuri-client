@@ -1,8 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
 import AdminLayout from "./components/admin/AdminLayout";
+import { ToastProvider } from "./components/admin/Toast";
 
 // Public pages
+import NotFound from "./pages/NotFound";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Heritage from "./pages/Heritage";
@@ -29,9 +31,11 @@ import AdminMedia from "./pages/admin/AdminMedia";
 import AdminEvents from "./pages/admin/AdminEvents";
 import AdminFeedback from "./pages/admin/AdminFeedback";
 import AdminStats from "./pages/admin/AdminStats";
+import AdminCategories from "./pages/admin/AdminCategories";
 
 export default function App() {
   return (
+    <ToastProvider>
     <Routes>
       {/* Public */}
       <Route element={<Layout />}>
@@ -47,6 +51,7 @@ export default function App() {
         <Route path="/news" element={<News />} />
         <Route path="/news/:slug" element={<NewsDetail />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
 
       {/* Admin */}
@@ -63,7 +68,9 @@ export default function App() {
         <Route path="events" element={<AdminEvents />} />
         <Route path="feedback" element={<AdminFeedback />} />
         <Route path="stats" element={<AdminStats />} />
+        <Route path="categories" element={<AdminCategories />} />
       </Route>
     </Routes>
+    </ToastProvider>
   );
 }

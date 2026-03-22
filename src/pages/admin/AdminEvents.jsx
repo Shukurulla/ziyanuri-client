@@ -6,6 +6,9 @@ import LangTabs, { LANGS } from "../../components/admin/LangTabs";
 import { Field, inputClass, selectClass } from "../../components/admin/FormField";
 import ImageUpload from "../../components/admin/ImageUpload";
 import RichEditor from "../../components/admin/RichEditor";
+import { toSlug } from "../../components/admin/SlugField";
+import ConfirmModal from "../../components/admin/ConfirmModal";
+import { useToast } from "../../components/admin/Toast";
 
 export default function AdminEvents() {
   const [items, setItems] = useState([]);
@@ -13,18 +16,24 @@ export default function AdminEvents() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(null);
   const [activeLang, setActiveLang] = useState("kk_lat");
+  const toast = useToast();
+  const [confirmState, setConfirmState] = useState({ open: false, id: null });
 
   const load = () => api.get("/events").then((r) => setItems(r.data));
   useEffect(() => { load(); }, []);
 
   const openNew = () => { setForm({ slug: "", image: "", date: "", type: "seminar", translations: LANGS.map((lang) => ({ lang, title: "", description: "" })) }); setEditing(null); setDrawerOpen(true); };
   const openEdit = (item) => {
-    setEditing(item.id);
+    setEditing(item._id);
     setForm({ slug: item.slug, image: item.image || "", date: item.date ? item.date.slice(0, 10) : "", type: item.type, translations: LANGS.map((lang) => { const ex = item.translations.find((t) => t.lang === lang); return { lang, title: ex?.title || "", description: ex?.description || "" }; }) });
     setDrawerOpen(true);
   };
-  const save = async () => { try { if (editing) await api.put(`/events/${editing}`, form); else await api.post("/events", form); setDrawerOpen(false); load(); } catch (err) { alert(err.response?.data?.error || "Xatolik"); } };
-  const remove = async (id) => { if (!confirm("O'chirmoqchimisiz?")) return; await api.delete(`/events/${id}`); load(); };
+  const save = async () => { try { const data = { ...form, slug: form.slug || toSlug(form.translations?.find(t => t.lang === "kk_lat")?.title || form.translations?.[0]?.title || "") }; if (editing) await api.put(`/events/${editing}`, data); else await api.post("/events", data); toast.success("Saqlandi"); setDrawerOpen(false); load(); } catch (err) { toast.error(err.response?.data?.error || "Xatolik"); } };
+  const askRemove = (id) => setConfirmState({ open: true, id });
+  const doRemove = async () => {
+    try { await api.delete(`/events/${confirmState.id}`); toast.success("O'chirildi"); load(); } catch { toast.error("O'chirishda xatolik"); }
+    setConfirmState({ open: false, id: null });
+  };
   const updateTr = (lang, field, value) => { setForm({ ...form, translations: form.translations.map((t) => t.lang === lang ? { ...t, [field]: value } : t) }); };
 
   const typeLabels = { seminar: "Seminar", conference: "Konferensiya", competition: "Konkurs" };
@@ -40,7 +49,7 @@ export default function AdminEvents() {
         {items.length > 0 ? (
           <div className="divide-y divide-gray-100">
             {items.map((item) => (
-              <div key={item.id} className="flex items-center gap-4 px-5 py-4 hover:bg-gray-50/50 group">
+              <div key={item._id} className="flex items-center gap-4 px-5 py-4 hover:bg-gray-50/50 group">
                 <div className="w-14 h-14 rounded-xl bg-primary-50 flex flex-col items-center justify-center shrink-0">
                   {item.date ? (<><span className="text-[10px] font-bold text-primary-500 uppercase">{new Date(item.date).toLocaleString("default", { month: "short" })}</span><span className="text-lg font-bold text-primary-700 leading-none">{new Date(item.date).getDate()}</span></>) : <HiCalendar className="w-6 h-6 text-primary-300" />}
                 </div>
@@ -51,7 +60,7 @@ export default function AdminEvents() {
                 <span className="px-2.5 py-1 rounded-lg text-[11px] font-medium bg-gray-50 text-gray-600 border border-gray-200">{typeLabels[item.type] || item.type}</span>
                 <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button onClick={() => openEdit(item)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-blue-600"><HiPencil className="w-4 h-4" /></button>
-                  <button onClick={() => remove(item.id)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-600"><HiTrash className="w-4 h-4" /></button>
+                  <button onClick={() => askRemove(item._id)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-600"><HiTrash className="w-4 h-4" /></button>
                 </div>
               </div>
             ))}
@@ -62,10 +71,7 @@ export default function AdminEvents() {
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} title={editing ? "Tahrirlash" : "Yangi tadbir"} wide>
         {form && (
           <div className="space-y-5">
-            <div className="grid grid-cols-2 gap-4">
-              <Field label="Slug"><input value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} className={inputClass} /></Field>
-              <Field label="Sana"><input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className={inputClass} /></Field>
-            </div>
+            <Field label="Sana"><input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} className={inputClass} /></Field>
             <Field label="Turi"><select value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value })} className={selectClass}><option value="seminar">Seminar</option><option value="conference">Konferensiya</option><option value="competition">Konkurs</option></select></Field>
             <ImageUpload value={form.image} onChange={(v) => setForm({ ...form, image: v })} />
             <div className="border-t pt-5"><LangTabs activeLang={activeLang} onChange={setActiveLang} /></div>
@@ -80,6 +86,7 @@ export default function AdminEvents() {
           </div>
         )}
       </Drawer>
+      <ConfirmModal open={confirmState.open} onClose={() => setConfirmState({ open: false, id: null })} onConfirm={doRemove} title="O'chirish" message="Haqiqatan ham o'chirmoqchimisiz? Bu amalni qaytarib bo'lmaydi." />
     </div>
   );
 }

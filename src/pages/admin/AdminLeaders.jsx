@@ -5,6 +5,8 @@ import Drawer from "../../components/admin/Drawer";
 import LangTabs, { LANGS } from "../../components/admin/LangTabs";
 import { Field, inputClass } from "../../components/admin/FormField";
 import ImageUpload from "../../components/admin/ImageUpload";
+import ConfirmModal from "../../components/admin/ConfirmModal";
+import { useToast } from "../../components/admin/Toast";
 
 export default function AdminLeaders() {
   const [items, setItems] = useState([]);
@@ -12,18 +14,24 @@ export default function AdminLeaders() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(null);
   const [activeLang, setActiveLang] = useState("kk_lat");
+  const toast = useToast();
+  const [confirmState, setConfirmState] = useState({ open: false, id: null });
 
   const load = () => api.get("/leaders").then((r) => setItems(r.data));
   useEffect(() => { load(); }, []);
 
   const openNew = () => { setForm({ photo: "", position: 0, translations: LANGS.map((lang) => ({ lang, fullName: "", role: "", bio: "" })) }); setEditing(null); setDrawerOpen(true); };
   const openEdit = (item) => {
-    setEditing(item.id);
+    setEditing(item._id);
     setForm({ photo: item.photo || "", position: item.position, translations: LANGS.map((lang) => { const ex = item.translations.find((t) => t.lang === lang); return { lang, fullName: ex?.fullName || "", role: ex?.role || "", bio: ex?.bio || "" }; }) });
     setDrawerOpen(true);
   };
-  const save = async () => { try { if (editing) await api.put(`/leaders/${editing}`, form); else await api.post("/leaders", form); setDrawerOpen(false); load(); } catch (err) { alert(err.response?.data?.error || "Xatolik"); } };
-  const remove = async (id) => { if (!confirm("O'chirmoqchimisiz?")) return; await api.delete(`/leaders/${id}`); load(); };
+  const save = async () => { try { if (editing) await api.put(`/leaders/${editing}`, form); else await api.post("/leaders", form); toast.success("Saqlandi"); setDrawerOpen(false); load(); } catch (err) { toast.error(err.response?.data?.error || "Xatolik"); } };
+  const askRemove = (id) => setConfirmState({ open: true, id });
+  const doRemove = async () => {
+    try { await api.delete(`/leaders/${confirmState.id}`); toast.success("O'chirildi"); load(); } catch { toast.error("O'chirishda xatolik"); }
+    setConfirmState({ open: false, id: null });
+  };
   const updateTr = (lang, field, value) => { setForm({ ...form, translations: form.translations.map((t) => t.lang === lang ? { ...t, [field]: value } : t) }); };
 
   return (
@@ -35,14 +43,14 @@ export default function AdminLeaders() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {items.map((item) => (
-          <div key={item.id} className="bg-white rounded-2xl border border-gray-200 p-6 text-center hover:shadow-md transition-shadow">
+          <div key={item._id} className="bg-white rounded-2xl border border-gray-200 p-6 text-center hover:shadow-md transition-shadow">
             {item.photo ? <img src={item.photo} alt="" className="w-24 h-24 rounded-2xl mx-auto object-cover border-2 border-gray-100" /> : <div className="w-24 h-24 rounded-2xl mx-auto bg-gray-100 flex items-center justify-center"><HiUserGroup className="w-8 h-8 text-gray-300" /></div>}
             <h3 className="font-semibold text-gray-900 mt-4">{item.translations?.[0]?.fullName || "—"}</h3>
             <p className="text-sm text-gray-500 mt-0.5">{item.translations?.[0]?.role || ""}</p>
             {item.translations?.[0]?.bio && <p className="text-xs text-gray-400 mt-2 line-clamp-2">{item.translations[0].bio}</p>}
             <div className="flex gap-1 mt-4 pt-3 border-t border-gray-100 justify-center">
               <button onClick={() => openEdit(item)} className="py-1.5 px-4 text-xs font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg flex items-center gap-1"><HiPencil className="w-3.5 h-3.5" /> Tahrirlash</button>
-              <button onClick={() => remove(item.id)} className="py-1.5 px-3 text-xs text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg"><HiTrash className="w-3.5 h-3.5" /></button>
+              <button onClick={() => askRemove(item._id)} className="py-1.5 px-3 text-xs text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg"><HiTrash className="w-3.5 h-3.5" /></button>
             </div>
           </div>
         ))}
@@ -66,6 +74,7 @@ export default function AdminLeaders() {
           </div>
         )}
       </Drawer>
+      <ConfirmModal open={confirmState.open} onClose={() => setConfirmState({ open: false, id: null })} onConfirm={doRemove} title="O'chirish" message="Haqiqatan ham o'chirmoqchimisiz? Bu amalni qaytarib bo'lmaydi." />
     </div>
   );
 }

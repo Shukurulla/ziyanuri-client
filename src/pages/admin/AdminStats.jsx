@@ -15,7 +15,7 @@ export default function AdminStats() {
   useEffect(() => { load(); }, []);
 
   const openEdit = (stat) => {
-    setEditing(stat.id);
+    setEditing(stat._id);
     setForm({ key: stat.key, value: stat.value, translations: LANGS.map((lang) => { const ex = stat.translations?.find((t) => t.lang === lang); return { lang, label: ex?.label || "" }; }) });
     setDrawerOpen(true);
   };
@@ -27,7 +27,7 @@ export default function AdminStats() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {stats.map((s) => (
-          <div key={s.id} className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-md transition-shadow group">
+          <div key={s._id} className="bg-white rounded-2xl border border-gray-200 p-6 hover:shadow-md transition-shadow group">
             <div className="flex items-start justify-between">
               <div className="w-11 h-11 bg-accent-50 rounded-xl flex items-center justify-center"><HiChartBar className="w-5 h-5 text-accent-600" /></div>
               <button onClick={() => openEdit(s)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-300 group-hover:text-gray-500 transition-colors"><HiPencil className="w-4 h-4" /></button>

@@ -3,7 +3,7 @@ import { Outlet, Link, NavLink, useNavigate } from "react-router-dom";
 import {
   HiHome, HiNewspaper, HiDocument, HiPhotograph,
   HiUserGroup, HiCollection, HiGlobe, HiFilm,
-  HiCalendar, HiMail, HiChartBar, HiLogout, HiMenu, HiX,
+  HiCalendar, HiMail, HiChartBar, HiLogout, HiMenu, HiX, HiTag,
 } from "react-icons/hi";
 import api from "../../api";
 
@@ -17,6 +17,7 @@ const menuItems = [
   { to: "/admin/heritage", label: "Meros", icon: HiGlobe },
   { to: "/admin/media", label: "Media", icon: HiFilm },
   { to: "/admin/events", label: "Tadbirlar", icon: HiCalendar },
+  { to: "/admin/categories", label: "Kategoriyalar", icon: HiTag },
   { to: "/admin/feedback", label: "Xabarlar", icon: HiMail },
   { to: "/admin/stats", label: "Statistika", icon: HiChartBar },
 ];
@@ -46,7 +47,7 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-40 w-[260px] bg-gradient-to-b from-primary-900 via-primary-900 to-primary-950 transform transition-transform lg:translate-x-0 lg:static ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
+      <aside className={`fixed inset-y-0 left-0 z-40 w-[260px] bg-[#0f1117] transform transition-transform lg:translate-x-0 lg:static ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
         <div className="px-5 py-5 flex items-center gap-3">
           <div className="w-10 h-10 bg-gradient-to-br from-accent-500 to-accent-600 rounded-xl flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-accent-500/30">ZN</div>
           <div>

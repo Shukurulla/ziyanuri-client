@@ -6,6 +6,9 @@ import LangTabs, { LANGS } from "../../components/admin/LangTabs";
 import { Field, inputClass } from "../../components/admin/FormField";
 import ImageUpload from "../../components/admin/ImageUpload";
 import RichEditor from "../../components/admin/RichEditor";
+import { toSlug } from "../../components/admin/SlugField";
+import ConfirmModal from "../../components/admin/ConfirmModal";
+import { useToast } from "../../components/admin/Toast";
 
 export default function AdminNews() {
   const [items, setItems] = useState([]);
@@ -15,6 +18,8 @@ export default function AdminNews() {
   const [form, setForm] = useState(null);
   const [activeLang, setActiveLang] = useState("kk_lat");
   const [preview, setPreview] = useState(null);
+  const toast = useToast();
+  const [confirmState, setConfirmState] = useState({ open: false, id: null });
 
   const load = () => api.get("/news/admin/all").then((r) => setItems(r.data));
   useEffect(() => { load(); }, []);
@@ -25,7 +30,7 @@ export default function AdminNews() {
   };
 
   const openEdit = (item) => {
-    setEditing(item.id);
+    setEditing(item._id);
     setForm({
       slug: item.slug, image: item.image || "", published: item.published,
       publishedAt: item.publishedAt ? item.publishedAt.slice(0, 10) : "",
@@ -36,12 +41,17 @@ export default function AdminNews() {
 
   const save = async () => {
     try {
-      if (editing) await api.put(`/news/${editing}`, form); else await api.post("/news", form);
-      setDrawerOpen(false); setForm(null); load();
-    } catch (err) { alert(err.response?.data?.error || "Xatolik"); }
+      const data = { ...form, slug: form.slug || toSlug(form.translations?.find(t => t.lang === "kk_lat")?.title || form.translations?.[0]?.title || "") };
+      if (editing) await api.put(`/news/${editing}`, data); else await api.post("/news", data);
+      toast.success("Saqlandi"); setDrawerOpen(false); setForm(null); load();
+    } catch (err) { toast.error(err.response?.data?.error || "Xatolik"); }
   };
 
-  const remove = async (id) => { if (!confirm("O'chirmoqchimisiz?")) return; await api.delete(`/news/${id}`); load(); };
+  const askRemove = (id) => setConfirmState({ open: true, id });
+  const doRemove = async () => {
+    try { await api.delete(`/news/${confirmState.id}`); toast.success("O'chirildi"); load(); } catch { toast.error("O'chirishda xatolik"); }
+    setConfirmState({ open: false, id: null });
+  };
 
   const updateTr = (lang, field, value) => {
     setForm({ ...form, translations: form.translations.map((t) => t.lang === lang ? { ...t, [field]: value } : t) });
@@ -65,7 +75,7 @@ export default function AdminNews() {
         {filtered.length > 0 ? (
           <div className="divide-y divide-gray-100">
             {filtered.map((item) => (
-              <div key={item.id} className="flex items-center gap-4 px-5 py-4 hover:bg-gray-50/50 group">
+              <div key={item._id} className="flex items-center gap-4 px-5 py-4 hover:bg-gray-50/50 group">
                 {item.image ? <img src={item.image} alt="" className="w-16 h-12 rounded-lg object-cover shrink-0 border" /> : <div className="w-16 h-12 rounded-lg bg-gray-100 flex items-center justify-center shrink-0"><HiNewspaper className="w-5 h-5 text-gray-300" /></div>}
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium text-gray-900 truncate">{item.translations?.[0]?.title || "—"}</p>
@@ -75,7 +85,7 @@ export default function AdminNews() {
                 <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button onClick={() => setPreview(item)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600"><HiEye className="w-4 h-4" /></button>
                   <button onClick={() => openEdit(item)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-blue-600"><HiPencil className="w-4 h-4" /></button>
-                  <button onClick={() => remove(item.id)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-600"><HiTrash className="w-4 h-4" /></button>
+                  <button onClick={() => askRemove(item._id)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-600"><HiTrash className="w-4 h-4" /></button>
                 </div>
               </div>
             ))}
@@ -104,10 +114,7 @@ export default function AdminNews() {
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} title={editing ? "Tahrirlash" : "Yangi yangilik"} wide>
         {form && (
           <div className="space-y-5">
-            <div className="grid grid-cols-2 gap-4">
-              <Field label="Slug" hint="URL uchun"><input value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} className={inputClass} placeholder="yangilik-nomi" /></Field>
-              <Field label="Sana"><input type="date" value={form.publishedAt} onChange={(e) => setForm({ ...form, publishedAt: e.target.value })} className={inputClass} /></Field>
-            </div>
+            <Field label="Sana"><input type="date" value={form.publishedAt} onChange={(e) => setForm({ ...form, publishedAt: e.target.value })} className={inputClass} /></Field>
             <ImageUpload value={form.image} onChange={(v) => setForm({ ...form, image: v })} />
             <label className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100">
               <input type="checkbox" checked={form.published} onChange={(e) => setForm({ ...form, published: e.target.checked })} className="w-4 h-4 rounded border-gray-300 text-primary-500" />
@@ -131,6 +138,7 @@ export default function AdminNews() {
           </div>
         )}
       </Drawer>
+      <ConfirmModal open={confirmState.open} onClose={() => setConfirmState({ open: false, id: null })} onConfirm={doRemove} title="O'chirish" message="Haqiqatan ham o'chirmoqchimisiz? Bu amalni qaytarib bo'lmaydi." />
     </div>
   );
 }

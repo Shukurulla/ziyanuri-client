@@ -5,6 +5,9 @@ import Drawer from "../../components/admin/Drawer";
 import LangTabs, { LANGS } from "../../components/admin/LangTabs";
 import { Field, inputClass } from "../../components/admin/FormField";
 import RichEditor from "../../components/admin/RichEditor";
+import { toSlug } from "../../components/admin/SlugField";
+import ConfirmModal from "../../components/admin/ConfirmModal";
+import { useToast } from "../../components/admin/Toast";
 
 export default function AdminPages() {
   const [items, setItems] = useState([]);
@@ -12,13 +15,15 @@ export default function AdminPages() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(null);
   const [activeLang, setActiveLang] = useState("kk_lat");
+  const toast = useToast();
+  const [confirmState, setConfirmState] = useState({ open: false, id: null });
 
   const load = () => api.get("/pages/admin/all").then((r) => setItems(r.data));
   useEffect(() => { load(); }, []);
 
   const openNew = () => { setForm({ slug: "", published: true, translations: LANGS.map((lang) => ({ lang, title: "", content: "" })), meta: LANGS.map((lang) => ({ lang, metaTitle: "", metaDesc: "" })) }); setEditing(null); setDrawerOpen(true); };
   const openEdit = (item) => {
-    setEditing(item.id);
+    setEditing(item._id);
     setForm({
       slug: item.slug, published: item.published,
       translations: LANGS.map((lang) => { const ex = item.translations.find((t) => t.lang === lang); return { lang, title: ex?.title || "", content: ex?.content || "" }; }),
@@ -26,8 +31,12 @@ export default function AdminPages() {
     });
     setDrawerOpen(true);
   };
-  const save = async () => { try { if (editing) await api.put(`/pages/${editing}`, form); else await api.post("/pages", form); setDrawerOpen(false); load(); } catch (err) { alert(err.response?.data?.error || "Xatolik"); } };
-  const remove = async (id) => { if (!confirm("O'chirmoqchimisiz?")) return; await api.delete(`/pages/${id}`); load(); };
+  const save = async () => { try { const data = { ...form, slug: form.slug || toSlug(form.translations?.find(t => t.lang === "kk_lat")?.title || form.translations?.[0]?.title || "") }; if (editing) await api.put(`/pages/${editing}`, data); else await api.post("/pages", data); toast.success("Saqlandi"); setDrawerOpen(false); load(); } catch (err) { toast.error(err.response?.data?.error || "Xatolik"); } };
+  const askRemove = (id) => setConfirmState({ open: true, id });
+  const doRemove = async () => {
+    try { await api.delete(`/pages/${confirmState.id}`); toast.success("O'chirildi"); load(); } catch { toast.error("O'chirishda xatolik"); }
+    setConfirmState({ open: false, id: null });
+  };
   const updateTr = (lang, field, value) => { setForm({ ...form, translations: form.translations.map((t) => t.lang === lang ? { ...t, [field]: value } : t) }); };
   const updateMeta = (lang, field, value) => { setForm({ ...form, meta: form.meta.map((m) => m.lang === lang ? { ...m, [field]: value } : m) }); };
 
@@ -42,7 +51,7 @@ export default function AdminPages() {
         {items.length > 0 ? (
           <div className="divide-y divide-gray-100">
             {items.map((item) => (
-              <div key={item.id} className="flex items-center gap-4 px-5 py-4 hover:bg-gray-50/50 group">
+              <div key={item._id} className="flex items-center gap-4 px-5 py-4 hover:bg-gray-50/50 group">
                 <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center shrink-0"><HiDocument className="w-5 h-5 text-gray-400" /></div>
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium text-gray-900">{item.translations?.[0]?.title || "—"}</p>
@@ -51,7 +60,7 @@ export default function AdminPages() {
                 <span className={`px-2.5 py-1 rounded-lg text-[11px] font-medium ${item.published ? "bg-emerald-50 text-emerald-700 border border-emerald-200" : "bg-gray-50 text-gray-500 border border-gray-200"}`}>{item.published ? "Nashr" : "Qoralama"}</span>
                 <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button onClick={() => openEdit(item)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-blue-600"><HiPencil className="w-4 h-4" /></button>
-                  <button onClick={() => remove(item.id)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-600"><HiTrash className="w-4 h-4" /></button>
+                  <button onClick={() => askRemove(item._id)} className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-red-600"><HiTrash className="w-4 h-4" /></button>
                 </div>
               </div>
             ))}
@@ -62,7 +71,6 @@ export default function AdminPages() {
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} title={editing ? "Tahrirlash" : "Yangi sahifa"} wide>
         {form && (
           <div className="space-y-5">
-            <Field label="Slug"><input value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} className={inputClass} placeholder="about" /></Field>
             <label className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl cursor-pointer"><input type="checkbox" checked={form.published} onChange={(e) => setForm({ ...form, published: e.target.checked })} className="w-4 h-4 rounded" /><span className="text-sm font-medium text-gray-700">Nashr qilish</span></label>
             <div className="border-t pt-5"><LangTabs activeLang={activeLang} onChange={setActiveLang} /></div>
             {LANGS.filter((l) => l === activeLang).map((lang) => (
@@ -82,6 +90,7 @@ export default function AdminPages() {
           </div>
         )}
       </Drawer>
+      <ConfirmModal open={confirmState.open} onClose={() => setConfirmState({ open: false, id: null })} onConfirm={doRemove} title="O'chirish" message="Haqiqatan ham o'chirmoqchimisiz? Bu amalni qaytarib bo'lmaydi." />
     </div>
   );
 }
