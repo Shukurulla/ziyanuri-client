@@ -5,7 +5,7 @@
     "heritage": "Heritage",
     "projects": "Projects",
     "media": "Media Library",
-    "education": "Educational Content",
+    "education": "Education",
     "events": "Events",
     "contact": "Contact"
   },
@@ -14,7 +14,7 @@
     "hero_subtitle": "Spiritual and Educational Center",
     "latest_news": "Latest News",
     "our_projects": "Our Projects",
-    "stats_title": "Achievements",
+    "stats_title": "Key Figures",
     "view_all": "View All",
     "read_more": "Read More"
   },
@@ -23,27 +23,53 @@
     "history": "History",
     "mission": "Mission & Strategy",
     "structure": "Structure",
-    "leadership": "Leadership"
+    "leadership": "Leadership",
+    "hero_label": "About",
+    "hero_desc": "Spiritual and educational center of the Republic of Karakalpakstan — preserving national values and passing them to future generations",
+    "feature_education": "Education",
+    "feature_education_desc": "Spreading knowledge and spirituality",
+    "feature_heritage": "Heritage",
+    "feature_heritage_desc": "Preserving and promoting national heritage",
+    "feature_cooperation": "Cooperation",
+    "feature_cooperation_desc": "Working with international partners",
+    "feature_innovation": "Innovation",
+    "feature_innovation_desc": "Modern approaches and technologies"
   },
   "heritage": {
-    "title": "Heritage",
+    "title": "Cultural Heritage",
     "historical": "Historical Sites",
     "monuments": "Monuments",
     "traditions": "National Traditions",
-    "cuisine": "National Cuisine"
+    "cuisine": "National Cuisine",
+    "hero_label": "Cultural Wealth",
+    "hero_desc": "Rich cultural heritage and traditions of Karakalpakstan",
+    "on_map": "On Map",
+    "details": "Details"
+  },
+  "events": {
+    "hero_label": "Events",
+    "hero_desc": "Events and meetings organized by the center",
+    "seminar": "Seminar",
+    "conference": "Conference",
+    "competition": "Competition"
   },
   "projects": {
     "title": "Projects",
     "completed": "Completed",
     "current": "Current Projects",
-    "grants": "Competitions & Grants"
+    "grants": "Competitions & Grants",
+    "hero_label": "Projects",
+    "hero_desc": "Projects implemented by the center"
   },
   "media": {
     "title": "Media Library",
     "photos": "Photo Gallery",
     "videos": "Videos",
     "audio": "Audio",
-    "books": "E-Books"
+    "books": "E-Books",
+    "hero_label": "Gallery",
+    "hero_desc": "Collection of photos, videos, audio and books",
+    "download": "Download"
   },
   "contact": {
     "title": "Contact",
@@ -54,16 +80,29 @@
     "name": "Your Name",
     "message": "Your Message",
     "submit": "Submit",
-    "success": "Message sent successfully!"
+    "success": "Message sent successfully!",
+    "hero_label": "Contact",
+    "hero_desc": "If you have questions or want to cooperate, get in touch with us",
+    "our_address": "Our Address",
+    "map_loading": "Loading map...",
+    "form_desc": "Leave us a message, we'll respond shortly",
+    "success_desc": "Your message has been sent successfully",
+    "send_again": "Send another message",
+    "name_placeholder": "Enter your name",
+    "message_placeholder": "Write your message..."
   },
   "footer": {
     "rights": "All rights reserved",
-    "social": "Social Media"
+    "social": "Social Media",
+    "description": "Spiritual and educational center of the Republic of Karakalpakstan. Preserving national values and passing them to future generations.",
+    "pages": "Pages",
+    "address_value": "Nukus, Republic of Karakalpakstan"
   },
   "common": {
     "loading": "Loading...",
-    "error": "Error",
+    "error": "An error occurred",
     "back": "Back",
-    "search": "Search"
+    "search": "Search",
+    "no_data": "No data found"
   }
 }

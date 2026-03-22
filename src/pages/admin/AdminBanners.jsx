@@ -1,105 +1,81 @@
 import { useEffect, useState } from "react";
-import { HiPlus, HiPencil, HiTrash } from "react-icons/hi";
+import { HiPlus, HiPencil, HiTrash, HiPhotograph } from "react-icons/hi";
 import api from "../../api";
+import Drawer from "../../components/admin/Drawer";
+import LangTabs, { LANGS } from "../../components/admin/LangTabs";
+import { Field, inputClass } from "../../components/admin/FormField";
 import ImageUpload from "../../components/admin/ImageUpload";
-
-const LANGS = ["kk_lat", "kk_cyr", "uz", "ru", "en"];
-const LANG_LABELS = { kk_lat: "QQ Lat", kk_cyr: "QQ Кир", uz: "UZ", ru: "RU", en: "EN" };
 
 export default function AdminBanners() {
   const [items, setItems] = useState([]);
-  const [form, setForm] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [editing, setEditing] = useState(null);
+  const [form, setForm] = useState(null);
   const [activeLang, setActiveLang] = useState("kk_lat");
 
   const load = () => api.get("/banners/admin/all").then((r) => setItems(r.data));
   useEffect(() => { load(); }, []);
 
-  const openNew = () => {
-    setForm({ image: "", link: "", sortOrder: 0, active: true, translations: LANGS.map((lang) => ({ lang, title: "", subtitle: "" })) });
-    setEditing(null);
-  };
-
+  const openNew = () => { setForm({ image: "", link: "", sortOrder: 0, active: true, translations: LANGS.map((lang) => ({ lang, title: "", subtitle: "" })) }); setEditing(null); setDrawerOpen(true); };
   const openEdit = (item) => {
     setEditing(item.id);
-    setForm({
-      image: item.image, link: item.link || "", sortOrder: item.sortOrder, active: item.active,
-      translations: LANGS.map((lang) => {
-        const ex = item.translations.find((t) => t.lang === lang);
-        return { lang, title: ex?.title || "", subtitle: ex?.subtitle || "" };
-      }),
-    });
+    setForm({ image: item.image, link: item.link || "", sortOrder: item.sortOrder, active: item.active, translations: LANGS.map((lang) => { const ex = item.translations.find((t) => t.lang === lang); return { lang, title: ex?.title || "", subtitle: ex?.subtitle || "" }; }) });
+    setDrawerOpen(true);
   };
-
-  const save = async () => {
-    try {
-      if (editing) await api.put(`/banners/${editing}`, form);
-      else await api.post("/banners", form);
-      setForm(null);
-      load();
-    } catch (err) { alert(err.response?.data?.error || "Xatolik"); }
-  };
-
-  const remove = async (id) => {
-    if (!confirm("O'chirmoqchimisiz?")) return;
-    await api.delete(`/banners/${id}`);
-    load();
-  };
+  const save = async () => { try { if (editing) await api.put(`/banners/${editing}`, form); else await api.post("/banners", form); setDrawerOpen(false); load(); } catch (err) { alert(err.response?.data?.error || "Xatolik"); } };
+  const remove = async (id) => { if (!confirm("O'chirmoqchimisiz?")) return; await api.delete(`/banners/${id}`); load(); };
+  const updateTr = (lang, field, value) => { setForm({ ...form, translations: form.translations.map((t) => t.lang === lang ? { ...t, [field]: value } : t) }); };
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Bannerlar</h1>
-        <button onClick={openNew} className="btn-primary flex items-center gap-2"><HiPlus /> Yangi</button>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div><h1 className="text-2xl font-bold text-gray-900">Bannerlar</h1><p className="text-sm text-gray-500 mt-1">{items.length} ta</p></div>
+        <button onClick={openNew} className="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl hover:bg-gray-800"><HiPlus className="w-4 h-4" /> Yangi</button>
       </div>
 
-      {form && (
-        <div className="bg-white rounded-xl p-6 shadow-sm mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            <ImageUpload value={form.image} onChange={(v) => setForm({ ...form, image: v })} />
-            <input placeholder="Havola" value={form.link} onChange={(e) => setForm({ ...form, link: e.target.value })} className="px-3 py-2 border rounded-lg" />
-            <input type="number" placeholder="Tartib" value={form.sortOrder} onChange={(e) => setForm({ ...form, sortOrder: Number(e.target.value) })} className="px-3 py-2 border rounded-lg" />
-          </div>
-
-          <div className="flex gap-1 mb-4 border-b">
-            {LANGS.map((lang) => (
-              <button key={lang} onClick={() => setActiveLang(lang)} className={`px-3 py-2 text-sm font-medium border-b-2 ${activeLang === lang ? "border-primary-500 text-primary-500" : "border-transparent text-gray-500"}`}>
-                {LANG_LABELS[lang]}
-              </button>
-            ))}
-          </div>
-
-          {LANGS.filter((l) => l === activeLang).map((lang) => {
-            const tr = form.translations.find((t) => t.lang === lang);
-            return (
-              <div key={lang} className="space-y-3">
-                <input placeholder="Sarlavha" value={tr?.title || ""} onChange={(e) => setForm({ ...form, translations: form.translations.map((t) => t.lang === lang ? { ...t, title: e.target.value } : t) })} className="w-full px-3 py-2 border rounded-lg" />
-                <input placeholder="Qo'shimcha matn" value={tr?.subtitle || ""} onChange={(e) => setForm({ ...form, translations: form.translations.map((t) => t.lang === lang ? { ...t, subtitle: e.target.value } : t) })} className="w-full px-3 py-2 border rounded-lg" />
-              </div>
-            );
-          })}
-
-          <div className="flex gap-2 mt-4">
-            <button onClick={save} className="btn-primary">Saqlash</button>
-            <button onClick={() => setForm(null)} className="px-4 py-2 border rounded-lg">Bekor</button>
-          </div>
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {items.map((item) => (
-          <div key={item.id} className="bg-white rounded-xl shadow-sm overflow-hidden">
-            {item.image && <img src={item.image} alt="" className="h-40 w-full object-cover" />}
+          <div key={item.id} className="bg-white rounded-2xl border border-gray-200 overflow-hidden group hover:shadow-md transition-shadow">
+            {item.image ? <img src={item.image} alt="" className="w-full h-48 object-cover" /> : <div className="w-full h-48 bg-gray-100 flex items-center justify-center"><HiPhotograph className="w-10 h-10 text-gray-200" /></div>}
             <div className="p-4">
-              <p className="font-medium">{item.translations?.[0]?.title || "Banner"}</p>
-              <div className="flex gap-2 mt-3">
-                <button onClick={() => openEdit(item)} className="text-blue-500"><HiPencil size={18} /></button>
-                <button onClick={() => remove(item.id)} className="text-red-500"><HiTrash size={18} /></button>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-gray-900">{item.translations?.[0]?.title || "Banner"}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">{item.translations?.[0]?.subtitle || ""}</p>
+                </div>
+                <span className={`px-2 py-0.5 rounded text-[10px] font-medium ${item.active ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>{item.active ? "Faol" : "Nofaol"}</span>
+              </div>
+              <div className="flex gap-1 mt-3 pt-3 border-t border-gray-100">
+                <button onClick={() => openEdit(item)} className="flex-1 py-1.5 text-xs font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center justify-center gap-1"><HiPencil className="w-3.5 h-3.5" /> Tahrirlash</button>
+                <button onClick={() => remove(item.id)} className="py-1.5 px-3 text-xs text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg"><HiTrash className="w-3.5 h-3.5" /></button>
               </div>
             </div>
           </div>
         ))}
+        {items.length === 0 && <div className="col-span-full py-16 text-center"><HiPhotograph className="w-12 h-12 text-gray-200 mx-auto mb-3" /><p className="text-gray-400 text-sm">Bannerlar yo'q</p></div>}
       </div>
+
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} title={editing ? "Tahrirlash" : "Yangi banner"}>
+        {form && (
+          <div className="space-y-5">
+            <ImageUpload value={form.image} onChange={(v) => setForm({ ...form, image: v })} />
+            <div className="grid grid-cols-2 gap-4">
+              <Field label="Tartib raqami"><input type="number" value={form.sortOrder} onChange={(e) => setForm({ ...form, sortOrder: Number(e.target.value) })} className={inputClass} /></Field>
+              <Field label="Havola"><input value={form.link} onChange={(e) => setForm({ ...form, link: e.target.value })} className={inputClass} placeholder="https://..." /></Field>
+            </div>
+            <label className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl cursor-pointer"><input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} className="w-4 h-4 rounded" /><span className="text-sm font-medium text-gray-700">Faol</span></label>
+            <div className="border-t pt-5"><LangTabs activeLang={activeLang} onChange={setActiveLang} /></div>
+            {LANGS.filter((l) => l === activeLang).map((lang) => {
+              const tr = form.translations.find((t) => t.lang === lang);
+              return (<div key={lang} className="space-y-4"><Field label="Sarlavha"><input value={tr?.title || ""} onChange={(e) => updateTr(lang, "title", e.target.value)} className={inputClass} /></Field><Field label="Qo'shimcha matn"><input value={tr?.subtitle || ""} onChange={(e) => updateTr(lang, "subtitle", e.target.value)} className={inputClass} /></Field></div>);
+            })}
+            <div className="flex gap-3 pt-4 border-t pt-4">
+              <button onClick={save} className="flex-1 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl hover:bg-gray-800">{editing ? "Saqlash" : "Yaratish"}</button>
+              <button onClick={() => setDrawerOpen(false)} className="px-4 py-2.5 border border-gray-200 text-sm rounded-xl hover:bg-gray-50">Bekor</button>
+            </div>
+          </div>
+        )}
+      </Drawer>
     </div>
   );
 }

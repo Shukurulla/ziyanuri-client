@@ -2,13 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Rich Editor styling */
+.rich-editor .ql-toolbar { @apply border-gray-200 rounded-t-xl bg-gray-50 !important; }
+.rich-editor .ql-container { @apply border-gray-200 rounded-b-xl text-sm min-h-[200px] !important; }
+.rich-editor .ql-editor { @apply min-h-[200px] text-gray-700 leading-relaxed; }
+.rich-editor .ql-editor.ql-blank::before { @apply text-gray-400 not-italic; }
+
 @layer base {
   body {
     @apply font-sans text-gray-800 bg-white antialiased;
   }
 
   ::selection {
-    @apply bg-primary-500/20 text-primary-900;
+    @apply bg-accent-500/20 text-primary-900;
   }
 }
 
@@ -18,17 +24,19 @@
   }
 
   .btn-primary {
-    @apply bg-primary-500 text-white px-6 py-2.5 rounded-lg font-medium
-           hover:bg-primary-600 active:scale-[0.98] transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply bg-primary-500 text-white px-6 py-2.5 rounded-xl font-medium
+           hover:bg-primary-600 active:scale-[0.97] transition-all duration-200
+           shadow-md hover:shadow-lg hover:shadow-primary-500/25;
   }
 
   .btn-secondary {
-    @apply bg-accent-500 text-white px-6 py-2.5 rounded-lg font-medium
-           hover:bg-accent-600 active:scale-[0.98] transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply bg-accent-500 text-white px-6 py-2.5 rounded-xl font-medium
+           hover:bg-accent-600 active:scale-[0.97] transition-all duration-200
+           shadow-md hover:shadow-lg hover:shadow-accent-500/25;
   }
 
   .btn-outline {
-    @apply border-2 border-primary-500 text-primary-500 px-6 py-2 rounded-lg font-medium
+    @apply border-2 border-primary-500 text-primary-500 px-6 py-2 rounded-xl font-medium
            hover:bg-primary-500 hover:text-white transition-all duration-200;
   }
 
@@ -42,7 +50,7 @@
 
   .card {
     @apply bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden
-           hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
+           hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300;
   }
 
   .card-flat {
@@ -69,24 +77,70 @@
     @apply bg-gradient-to-r from-primary-500 to-accent-500 bg-clip-text text-transparent;
   }
 
+  .ornament-line {
+    display: none;
+  }
+
+  /* Milliy ornament border */
   .ornament-border {
     @apply relative;
   }
 
   .ornament-border::before {
     content: "";
-    @apply absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-primary-500 to-accent-500 rounded-full;
+    @apply absolute left-0 top-0 w-1.5 h-full rounded-full;
+    background: linear-gradient(180deg, #c8a951, #1a56db, #c8a951);
+  }
+
+  /* Glass card */
+  .glass {
+    @apply bg-white/70 backdrop-blur-md border border-white/30 shadow-lg;
+  }
+
+  .glass-dark {
+    @apply bg-black/20 backdrop-blur-md border border-white/10;
   }
 }
 
-/* Animations */
+/* ═══ Qoraqalpog'iston milliy naqshlar (SVG) ═══ */
+/*
+  "Qos mu'yiz" naqshi — rasmdagi kabi:
+  Markaziy romb + har burchakdan chiquvchi to'rtburchak spiral ilgaklar
+  Diamond + squared ram-horn hooks at each corner
+*/
+
+/*
+  Har bir ilgak 3 ta burilish qiladi (diagonal → perpendicular → parallel → back):
+  Rasmdagi asl "qos mu'yiz" naqshiga to'liq mos
+*/
+.kk-pattern-main {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23c8a951' stroke-width='5' stroke-linecap='square' stroke-linejoin='miter' opacity='0.14'%3E%3Cpath d='M50,20 L80,50 L50,80 L20,50Z'/%3E%3Cpath d='M50,20 L40,10 L30,10 L30,22 L38,22'/%3E%3Cpath d='M50,20 L60,10 L70,10 L70,22 L62,22'/%3E%3Cpath d='M80,50 L90,40 L90,30 L78,30 L78,38'/%3E%3Cpath d='M80,50 L90,60 L90,70 L78,70 L78,62'/%3E%3Cpath d='M50,80 L60,90 L70,90 L70,78 L62,78'/%3E%3Cpath d='M50,80 L40,90 L30,90 L30,78 L38,78'/%3E%3Cpath d='M20,50 L10,60 L10,70 L22,70 L22,62'/%3E%3Cpath d='M20,50 L10,40 L10,30 L22,30 L22,38'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Ikkinchi variant — kichikroq, zich */
+.kk-pattern-horn {
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23c8a951' stroke-width='4' stroke-linecap='square' stroke-linejoin='miter' opacity='0.10'%3E%3Cpath d='M40,14 L66,40 L40,66 L14,40Z'/%3E%3Cpath d='M40,14 L32,6 L24,6 L24,16 L30,16'/%3E%3Cpath d='M40,14 L48,6 L56,6 L56,16 L50,16'/%3E%3Cpath d='M66,40 L74,32 L74,24 L64,24 L64,30'/%3E%3Cpath d='M66,40 L74,48 L74,56 L64,56 L64,50'/%3E%3Cpath d='M40,66 L48,74 L56,74 L56,64 L50,64'/%3E%3Cpath d='M40,66 L32,74 L24,74 L24,64 L30,64'/%3E%3Cpath d='M14,40 L6,48 L6,56 L16,56 L16,50'/%3E%3Cpath d='M14,40 L6,32 L6,24 L16,24 L16,30'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Vertikal bordyur — sidebar/chegaralar */
+.kk-border-vertical {
+  background-image: url("data:image/svg+xml,%3Csvg width='56' height='100' viewBox='0 0 56 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23c8a951' stroke-width='4' stroke-linecap='square' stroke-linejoin='miter' opacity='0.25'%3E%3Cpath d='M28,12 L46,30 L28,48 L10,30Z'/%3E%3Cpath d='M28,12 L21,5 L14,5 L14,14 L19,14'/%3E%3Cpath d='M28,12 L35,5 L42,5 L42,14 L37,14'/%3E%3Cpath d='M46,30 L53,23 L53,16 L44,16 L44,21'/%3E%3Cpath d='M46,30 L53,37 L53,44 L44,44 L44,39'/%3E%3Cpath d='M10,30 L3,23 L3,16 L12,16 L12,21'/%3E%3Cpath d='M10,30 L3,37 L3,44 L12,44 L12,39'/%3E%3Cpath d='M28,48 L21,55 L14,55 L14,46 L19,46'/%3E%3Cpath d='M28,48 L35,55 L42,55 L42,46 L37,46'/%3E%3Cpath d='M28,62 L46,80 L28,98 L10,80Z'/%3E%3Cpath d='M46,80 L53,73 L53,66 L44,66 L44,71'/%3E%3Cpath d='M46,80 L53,87 L53,94 L44,94 L44,89'/%3E%3Cpath d='M10,80 L3,73 L3,66 L12,66 L12,71'/%3E%3Cpath d='M10,80 L3,87 L3,94 L12,94 L12,89'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat-y;
+}
+
+/* Footer naqshi (kichik qos mu'yiz) */
+.kk-pattern-yurt {
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23c8a951' stroke-width='3' stroke-linecap='square' stroke-linejoin='miter' opacity='0.06'%3E%3Cpath d='M40,14 L66,40 L40,66 L14,40Z'/%3E%3Cpath d='M40,14 L32,6 L24,6 L24,16 L30,16'/%3E%3Cpath d='M40,14 L48,6 L56,6 L56,16 L50,16'/%3E%3Cpath d='M66,40 L74,32 L74,24 L64,24 L64,30'/%3E%3Cpath d='M66,40 L74,48 L74,56 L64,56 L64,50'/%3E%3Cpath d='M40,66 L48,74 L56,74 L56,64 L50,64'/%3E%3Cpath d='M40,66 L32,74 L24,74 L24,64 L30,64'/%3E%3Cpath d='M14,40 L6,48 L6,56 L16,56 L16,50'/%3E%3Cpath d='M14,40 L6,32 L6,24 L16,24 L16,30'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ═══ Animations ═══ */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slideIn {
-  from { opacity: 0; transform: translateX(-20px); }
+  from { opacity: 0; transform: translateX(-30px); }
   to { opacity: 1; transform: translateX(0); }
 }
 
@@ -95,8 +149,13 @@
   50% { transform: translateY(-10px); }
 }
 
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 .animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
+  animation: fadeInUp 0.7s ease-out forwards;
 }
 
 .animate-slide-in {
@@ -107,31 +166,32 @@
   animation: float 3s ease-in-out infinite;
 }
 
+.animate-scale-in {
+  animation: scaleIn 0.5s ease-out forwards;
+}
+
 /* Stagger children animations */
 .stagger-children > * {
   opacity: 0;
-  animation: fadeInUp 0.5s ease-out forwards;
+  animation: fadeInUp 0.6s ease-out forwards;
 }
 
-.stagger-children > *:nth-child(1) { animation-delay: 0.1s; }
-.stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
-.stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
-.stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
-.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
-.stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
+.stagger-children > *:nth-child(1) { animation-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { animation-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { animation-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { animation-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { animation-delay: 0.3s; }
+.stagger-children > *:nth-child(7) { animation-delay: 0.35s; }
+.stagger-children > *:nth-child(8) { animation-delay: 0.4s; }
 
-/* Ornamental pattern background */
-.pattern-bg {
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5L35 15L45 15L37 22L40 32L30 26L20 32L23 22L15 15L25 15Z' fill='%231a56db' opacity='0.03'/%3E%3C/svg%3E");
-}
+/* ═══ Scrollbar ═══ */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f8f6f0; }
+::-webkit-scrollbar-thumb { background: #c8a951; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #b8963e; }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #f1f1f1; }
-::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #a1a1a1; }
-
-/* Line clamp */
+/* ═══ Line clamp ═══ */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -144,4 +204,21 @@
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Section divider */
+.section-divider {
+  display: none;
+}
+
+/* ═══ No-image placeholder ═══ */
+.placeholder-img {
+  @apply relative overflow-hidden;
+  background: linear-gradient(135deg, #142e6b 0%, #1a56db 50%, #153a8a 100%);
+}
+
+.placeholder-img::before {
+  content: "";
+  @apply absolute inset-0;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='4' stroke-linecap='square' stroke-linejoin='miter' opacity='0.07'%3E%3Cpath d='M50,20 L80,50 L50,80 L20,50Z'/%3E%3Cpath d='M50,20 L40,10 L30,10 L30,22 L38,22'/%3E%3Cpath d='M50,20 L60,10 L70,10 L70,22 L62,22'/%3E%3Cpath d='M80,50 L90,40 L90,30 L78,30 L78,38'/%3E%3Cpath d='M80,50 L90,60 L90,70 L78,70 L78,62'/%3E%3Cpath d='M50,80 L60,90 L70,90 L70,78 L62,78'/%3E%3Cpath d='M50,80 L40,90 L30,90 L30,78 L38,78'/%3E%3Cpath d='M20,50 L10,60 L10,70 L22,70 L22,62'/%3E%3Cpath d='M20,50 L10,40 L10,30 L22,30 L22,38'/%3E%3C/g%3E%3C/svg%3E");
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { HiCalendar, HiArrowRight } from "react-icons/hi";
+import { HiCalendar, HiArrowRight, HiNewspaper } from "react-icons/hi";
 import api from "../api";
 
 export default function News() {
@@ -16,33 +16,40 @@ export default function News() {
 
   return (
     <div>
-      <section className="bg-gradient-to-br from-primary-700 to-primary-900 text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5 pattern-bg" />
+      <section className="relative bg-gradient-to-br from-primary-800 via-primary-900 to-black text-white py-24 overflow-hidden">
+        <div className="absolute inset-0 kk-pattern-main opacity-60" />
+        <div className="absolute left-0 top-0 bottom-0 w-14 kk-border-vertical opacity-30" />
         <div className="container-main relative z-10 animate-fade-in-up">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">{t("nav.news")}</h1>
-          <div className="w-20 h-1 bg-accent-500 rounded-full" />
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-10 h-1 bg-accent-500 rounded-full" />
+            <span className="text-accent-400 text-sm font-medium uppercase tracking-[0.2em]">
+              {t("home.latest_news")}
+            </span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">{t("home.latest_news")}</h1>
         </div>
       </section>
 
-      <section className="py-16">
+      <section className="py-16 bg-gradient-to-b from-sand-50 to-white">
         <div className="container-main">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 stagger-children">
             {news.map((n) => (
-              <Link key={n._id} to={`/news/${n.slug}`} className="card group">
+              <Link key={n._id} to={`/news/${n.slug}`} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 border border-gray-100">
                 <div className="relative h-52 overflow-hidden">
                   {n.image ? (
-                    <img src={n.image} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <img src={n.image} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center text-6xl opacity-50">
-                      📰
+                    <div className="w-full h-full placeholder-img flex items-center justify-center">
+                      <HiNewspaper className="w-16 h-16 text-white/20" />
                     </div>
                   )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   {n.publishedAt && (
-                    <div className="absolute top-3 right-3 bg-white rounded-xl p-2 text-center min-w-[56px] shadow-lg">
-                      <div className="text-xs text-primary-500 font-bold uppercase">
+                    <div className="absolute top-3 right-3 bg-white rounded-xl overflow-hidden min-w-[56px] shadow-lg text-center">
+                      <div className="bg-accent-500 text-white text-[10px] font-bold uppercase px-2 py-0.5 tracking-wider">
                         {new Date(n.publishedAt).toLocaleString("default", { month: "short" })}
                       </div>
-                      <div className="text-xl font-extrabold text-gray-800 leading-none">
+                      <div className="text-2xl font-extrabold text-gray-800 py-1 leading-none">
                         {new Date(n.publishedAt).getDate()}
                       </div>
                     </div>
@@ -50,19 +57,19 @@ export default function News() {
                 </div>
                 <div className="p-5">
                   {n.publishedAt && (
-                    <span className="text-xs text-gray-400 flex items-center gap-1 mb-2">
-                      <HiCalendar size={12} />
+                    <span className="text-xs text-gray-400 flex items-center gap-1.5 mb-2">
+                      <HiCalendar className="w-3.5 h-3.5 text-accent-500" />
                       {new Date(n.publishedAt).toLocaleDateString()}
                     </span>
                   )}
-                  <h3 className="font-bold text-lg group-hover:text-primary-500 transition-colors mb-2">
+                  <h3 className="font-bold text-lg group-hover:text-primary-600 transition-colors mb-2 line-clamp-2 leading-snug">
                     {tr(n).title || "—"}
                   </h3>
-                  <p className="text-gray-500 text-sm line-clamp-2">
+                  <p className="text-gray-400 text-sm line-clamp-2 leading-relaxed">
                     {tr(n).summary || tr(n).content?.replace(/<[^>]*>/g, '') || ""}
                   </p>
-                  <span className="inline-flex items-center gap-1 text-primary-500 text-sm font-medium mt-4 group-hover:gap-2 transition-all">
-                    {t("home.read_more")} <HiArrowRight size={14} />
+                  <span className="inline-flex items-center gap-1.5 text-accent-500 text-sm font-semibold mt-4 group-hover:gap-3 transition-all duration-300">
+                    {t("home.read_more")} <HiArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
               </Link>
@@ -70,8 +77,10 @@ export default function News() {
           </div>
 
           {news.length === 0 && (
-            <div className="text-center py-20 text-gray-300">
-              <div className="text-7xl mb-4">📰</div>
+            <div className="text-center py-24 text-gray-300">
+              <div className="w-20 h-20 mx-auto mb-4 bg-gray-100 rounded-2xl flex items-center justify-center">
+                <HiNewspaper className="w-10 h-10 text-gray-300" />
+              </div>
               <p className="text-lg">{t("common.loading")}</p>
             </div>
           )}

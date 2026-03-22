@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { HiLocationMarker, HiPhone, HiMail, HiCheckCircle } from "react-icons/hi";
+import { HiLocationMarker, HiPhone, HiMail, HiCheckCircle, HiMap } from "react-icons/hi";
 import api from "../api";
 
 export default function Contact() {
@@ -22,7 +22,7 @@ export default function Contact() {
     e.preventDefault();
     setSending(true);
     try {
-      await api.post("/feedback", form);
+      await api.post("/feedback", { ...form, phone: form.phone ? "+998 " + form.phone : "" });
       setSent(true);
       setForm({ name: "", email: "", phone: "", message: "" });
     } catch {
@@ -32,33 +32,47 @@ export default function Contact() {
   };
 
   const infoCards = [
-    { icon: HiLocationMarker, label: t("contact.address"), value: contacts.address, color: "text-red-500 bg-red-50" },
-    { icon: HiPhone, label: t("contact.phone"), value: contacts.phone, color: "text-green-500 bg-green-50" },
-    { icon: HiMail, label: t("contact.email"), value: contacts.email, color: "text-blue-500 bg-blue-50" },
+    { icon: HiLocationMarker, label: t("contact.address"), value: contacts.address, gradient: "from-rose-500 to-red-500" },
+    { icon: HiPhone, label: t("contact.phone"), value: contacts.phone, gradient: "from-emerald-500 to-green-500" },
+    { icon: HiMail, label: t("contact.email"), value: contacts.email, gradient: "from-blue-500 to-primary-500" },
   ];
+
+  const inputClass = "w-full px-5 py-3.5 bg-sand-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-accent-500/50 focus:border-accent-500 focus:bg-white outline-none transition-all duration-300 text-gray-700 placeholder:text-gray-400";
 
   return (
     <div>
-      <section className="bg-gradient-to-br from-primary-700 to-primary-900 text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5 pattern-bg" />
+      {/* Hero */}
+      <section className="relative bg-gradient-to-br from-primary-800 via-primary-900 to-black text-white py-24 overflow-hidden">
+        <div className="absolute inset-0 kk-pattern-main opacity-60" />
+        <div className="absolute right-0 top-0 bottom-0 w-14 kk-border-vertical opacity-30" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-accent-500/10 rounded-full blur-[100px]" />
+
         <div className="container-main relative z-10 animate-fade-in-up">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-10 h-1 bg-accent-500 rounded-full" />
+            <span className="text-accent-400 text-sm font-medium uppercase tracking-[0.2em]">
+              {t("contact.hero_label")}
+            </span>
+          </div>
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4">{t("contact.title")}</h1>
-          <div className="w-20 h-1 bg-accent-500 rounded-full" />
+          <p className="text-white/60 text-lg max-w-lg">
+            {t("contact.hero_desc")}
+          </p>
         </div>
       </section>
 
       {/* Info Cards */}
-      <section className="py-10 -mt-10 relative z-10">
+      <section className="py-8 -mt-14 relative z-10">
         <div className="container-main">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5 stagger-children">
             {infoCards.map((c, i) => (
-              <div key={i} className="card p-6 flex items-start gap-4">
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${c.color}`}>
-                  <c.icon size={24} />
+              <div key={i} className="bg-white rounded-2xl p-6 flex items-start gap-4 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 border border-gray-100">
+                <div className={`w-12 h-12 bg-gradient-to-br ${c.gradient} rounded-xl flex items-center justify-center shrink-0 text-white shadow-lg`}>
+                  <c.icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-800">{c.label}</h3>
-                  <p className="text-gray-500 mt-1">{c.value || "—"}</p>
+                  <h3 className="font-semibold text-gray-800 text-sm uppercase tracking-wider">{c.label}</h3>
+                  <p className="text-gray-600 mt-1 font-medium">{c.value || "—"}</p>
                 </div>
               </div>
             ))}
@@ -66,13 +80,17 @@ export default function Contact() {
         </div>
       </section>
 
-      <section className="py-16">
+      <section className="py-20 bg-gradient-to-b from-white to-sand-50">
         <div className="container-main">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Map */}
             <div>
+              <h3 className="text-lg font-bold text-primary-800 mb-4 flex items-center gap-2">
+                <span className="w-8 h-1 bg-accent-500 rounded-full" />
+                {t("contact.our_address")}
+              </h3>
               {contacts.lat && contacts.lng ? (
-                <div className="rounded-2xl overflow-hidden h-[400px] shadow-lg">
+                <div className="rounded-2xl overflow-hidden h-[420px] shadow-lg border border-gray-200">
                   <iframe
                     title="map"
                     width="100%"
@@ -83,61 +101,97 @@ export default function Contact() {
                   />
                 </div>
               ) : (
-                <div className="rounded-2xl h-[400px] bg-gray-100 flex items-center justify-center text-gray-300 text-7xl">
-                  🗺️
+                <div className="rounded-2xl h-[420px] bg-sand-100 flex items-center justify-center text-gray-300">
+                  <div className="text-center">
+                    <HiMap className="w-16 h-16 mx-auto mb-3 text-gray-300" />
+                    <span className="text-gray-400">{t("contact.map_loading")}</span>
+                  </div>
                 </div>
               )}
             </div>
 
             {/* Form */}
             <div>
-              <h2 className="text-2xl font-bold text-primary-700 mb-2">{t("contact.send_message")}</h2>
-              <p className="text-gray-500 mb-6">Bizga xabar qoldiring, tez orada javob beramiz</p>
+              <h3 className="text-lg font-bold text-primary-800 mb-2 flex items-center gap-2">
+                <span className="w-8 h-1 bg-accent-500 rounded-full" />
+                {t("contact.send_message")}
+              </h3>
+              <p className="text-gray-500 mb-8 text-sm">{t("contact.form_desc")}</p>
 
               {sent ? (
-                <div className="p-8 bg-emerald-50 rounded-2xl text-center animate-fade-in-up">
-                  <HiCheckCircle size={56} className="text-emerald-500 mx-auto mb-4" />
+                <div className="p-10 bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl text-center animate-fade-in-up border border-emerald-100">
+                  <div className="w-16 h-16 bg-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-5 shadow-lg shadow-emerald-500/30">
+                    <HiCheckCircle className="w-8 h-8 text-white" />
+                  </div>
                   <h3 className="text-xl font-bold text-emerald-700 mb-2">{t("contact.success")}</h3>
-                  <button onClick={() => setSent(false)} className="text-primary-500 hover:underline mt-2">
-                    Yana xabar yuborish
+                  <p className="text-emerald-600/60 text-sm mb-4">{t("contact.success_desc")}</p>
+                  <button onClick={() => setSent(false)} className="text-accent-600 hover:text-accent-700 font-medium text-sm hover:underline">
+                    {t("contact.send_again")}
                   </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <input
-                      type="text"
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-1.5">{t("contact.name")}</label>
+                      <input
+                        type="text"
+                        required
+                        placeholder={t("contact.name_placeholder")}
+                        value={form.name}
+                        onChange={(e) => setForm({ ...form, name: e.target.value })}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-600 mb-1.5">{t("contact.email")}</label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="email@example.com"
+                        value={form.email}
+                        onChange={(e) => setForm({ ...form, email: e.target.value })}
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1.5">{t("contact.phone")}</label>
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm font-medium">+998</span>
+                      <input
+                        type="tel"
+                        placeholder="XX XXX XX XX"
+                        value={form.phone}
+                        onChange={(e) => {
+                          const raw = e.target.value.replace(/\D/g, "").slice(0, 9);
+                          let formatted = "";
+                          if (raw.length > 0) formatted = raw.slice(0, 2);
+                          if (raw.length > 2) formatted += " " + raw.slice(2, 5);
+                          if (raw.length > 5) formatted += " " + raw.slice(5, 7);
+                          if (raw.length > 7) formatted += " " + raw.slice(7, 9);
+                          setForm({ ...form, phone: formatted });
+                        }}
+                        className={`${inputClass} pl-16`}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-600 mb-1.5">{t("contact.message")}</label>
+                    <textarea
                       required
-                      placeholder={t("contact.name")}
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
-                    />
-                    <input
-                      type="email"
-                      required
-                      placeholder={t("contact.email")}
-                      value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
+                      rows={5}
+                      placeholder={t("contact.message_placeholder")}
+                      value={form.message}
+                      onChange={(e) => setForm({ ...form, message: e.target.value })}
+                      className={`${inputClass} resize-none`}
                     />
                   </div>
-                  <input
-                    type="tel"
-                    placeholder={t("contact.phone")}
-                    value={form.phone}
-                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition"
-                  />
-                  <textarea
-                    required
-                    rows={5}
-                    placeholder={t("contact.message")}
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none resize-none transition"
-                  />
-                  <button type="submit" disabled={sending} className="btn-primary w-full py-3.5 text-lg disabled:opacity-50">
+                  <button
+                    type="submit"
+                    disabled={sending}
+                    className="btn-secondary w-full py-4 text-lg disabled:opacity-50 rounded-xl"
+                  >
                     {sending ? t("common.loading") : t("contact.submit")}
                   </button>
                 </form>

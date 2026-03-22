@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { HiLocationMarker } from "react-icons/hi";
+import {
+  HiLocationMarker, HiArrowRight, HiOfficeBuilding,
+  HiCube, HiSparkles, HiCake, HiCollection
+} from "react-icons/hi";
 import api from "../api";
 
 const categories = ["historical", "monument", "tradition", "cuisine"];
@@ -25,83 +28,120 @@ export default function Heritage() {
     cuisine: t("heritage.cuisine"),
   };
 
-  const categoryIcons = { historical: "🏛️", monument: "🗿", tradition: "🎭", cuisine: "🍽️" };
+  const categoryIcons = {
+    historical: HiOfficeBuilding,
+    monument: HiCube,
+    tradition: HiSparkles,
+    cuisine: HiCake,
+  };
 
   return (
     <div>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-primary-700 to-primary-900 text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5 pattern-bg" />
+      <section className="relative bg-gradient-to-br from-primary-800 via-primary-900 to-black text-white py-24 overflow-hidden">
+        <div className="absolute inset-0 kk-pattern-main opacity-60" />
+        <div className="absolute right-0 top-0 bottom-0 w-14 kk-border-vertical opacity-30" />
+        <div className="absolute top-0 right-0 w-80 h-80 bg-accent-500/10 rounded-full blur-[100px]" />
+
         <div className="container-main relative z-10 animate-fade-in-up">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-10 h-1 bg-accent-500 rounded-full" />
+            <span className="text-accent-400 text-sm font-medium uppercase tracking-[0.2em]">
+              {t("heritage.hero_label")}
+            </span>
+          </div>
           <h1 className="text-4xl md:text-5xl font-extrabold mb-4">{t("heritage.title")}</h1>
-          <div className="w-20 h-1 bg-accent-500 rounded-full" />
+          <p className="text-white/60 text-lg max-w-lg">
+            {t("heritage.hero_desc")}
+          </p>
         </div>
       </section>
 
-      <section className="py-16">
+      <section className="py-16 bg-gradient-to-b from-sand-50 to-white">
         <div className="container-main">
           {/* Filters */}
-          <div className="flex flex-wrap gap-3 mb-10">
+          <div className="flex flex-wrap gap-3 mb-12">
             <button
               onClick={() => setFilter("")}
-              className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                !filter ? "bg-primary-500 text-white shadow-lg shadow-primary-500/25" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              className={`px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                !filter
+                  ? "bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/25"
+                  : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 hover:border-accent-500/50"
               }`}
             >
-              {t("home.view_all")}
+              <HiCollection className="w-4 h-4" /> {t("home.view_all")}
             </button>
-            {categories.map((c) => (
-              <button
-                key={c}
-                onClick={() => setFilter(c)}
-                className={`px-5 py-2.5 rounded-xl text-sm font-medium transition-all flex items-center gap-2 ${
-                  filter === c ? "bg-primary-500 text-white shadow-lg shadow-primary-500/25" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                <span>{categoryIcons[c]}</span> {categoryLabels[c]}
-              </button>
-            ))}
+            {categories.map((c) => {
+              const Icon = categoryIcons[c];
+              return (
+                <button
+                  key={c}
+                  onClick={() => setFilter(c)}
+                  className={`px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 flex items-center gap-2 ${
+                    filter === c
+                      ? "bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/25"
+                      : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 hover:border-accent-500/50"
+                  }`}
+                >
+                  <Icon className="w-4 h-4" /> {categoryLabels[c]}
+                </button>
+              );
+            })}
           </div>
 
           {/* Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 stagger-children">
-            {items.map((item) => (
-              <Link key={item._id} to={`/heritage/${item.slug}`} className="card group">
-                <div className="relative h-56 overflow-hidden">
-                  {item.image ? (
-                    <img src={item.image} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center text-6xl">
-                      {categoryIcons[item.category] || "🏛️"}
+            {items.map((item) => {
+              const CatIcon = categoryIcons[item.category] || HiOfficeBuilding;
+              return (
+                <Link
+                  key={item._id}
+                  to={`/heritage/${item.slug}`}
+                  className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 border border-gray-100"
+                >
+                  <div className="relative h-56 overflow-hidden">
+                    {item.image ? (
+                      <img src={item.image} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    ) : (
+                      <div className="w-full h-full placeholder-img flex items-center justify-center">
+                        <CatIcon className="w-16 h-16 text-white/15" />
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+                    {item.lat && item.lng && (
+                      <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-gray-700 px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow-sm">
+                        <HiLocationMarker className="w-3.5 h-3.5 text-red-500" /> {t("heritage.on_map")}
+                      </span>
+                    )}
+
+                    <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+                      <span className="bg-white/90 backdrop-blur-sm text-gray-700 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5">
+                        <CatIcon className="w-3.5 h-3.5 text-primary-500" /> {categoryLabels[item.category]}
+                      </span>
                     </div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                  {item.lat && item.lng && (
-                    <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-gray-700 px-2 py-1 rounded-full text-xs flex items-center gap-1">
-                      <HiLocationMarker size={12} className="text-red-500" /> Xaritada
-                    </span>
-                  )}
-                  <div className="absolute bottom-3 left-3">
-                    <span className="badge bg-white/90 backdrop-blur-sm text-gray-700">
-                      {categoryIcons[item.category]} {categoryLabels[item.category]}
+                  </div>
+                  <div className="p-5">
+                    <h3 className="font-bold text-lg group-hover:text-primary-600 transition-colors mb-2 leading-snug">
+                      {tr(item).title || "—"}
+                    </h3>
+                    <p className="text-gray-400 text-sm line-clamp-2 leading-relaxed">
+                      {tr(item).description?.replace(/<[^>]*>/g, '') || ""}
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 text-accent-500 text-sm font-semibold mt-4 group-hover:gap-3 transition-all duration-300">
+                      {t("heritage.details")} <HiArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-bold text-lg group-hover:text-primary-500 transition-colors mb-2">
-                    {tr(item).title || "—"}
-                  </h3>
-                  <p className="text-gray-500 text-sm line-clamp-2">
-                    {tr(item).description?.replace(/<[^>]*>/g, '') || ""}
-                  </p>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
 
           {items.length === 0 && (
-            <div className="text-center py-20 text-gray-300">
-              <div className="text-7xl mb-4">🏛️</div>
+            <div className="text-center py-24 text-gray-300">
+              <div className="w-20 h-20 mx-auto mb-4 bg-gray-100 rounded-2xl flex items-center justify-center">
+                <HiOfficeBuilding className="w-10 h-10 text-gray-300" />
+              </div>
               <p className="text-lg">{t("common.loading")}</p>
             </div>
           )}

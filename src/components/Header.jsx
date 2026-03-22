@@ -26,90 +26,102 @@ export default function Header() {
   ];
 
   const navClass = ({ isActive }) =>
-    `relative px-3 py-2 text-sm font-medium transition-all duration-200 ${
+    `relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
       isActive
-        ? "text-primary-500"
-        : "text-gray-600 hover:text-primary-500"
-    } after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:bg-primary-500 after:transition-all after:duration-300 ${
-      isActive ? "after:w-full" : "after:w-0 hover:after:w-full"
+        ? "text-accent-500"
+        : "text-gray-600 hover:text-accent-500"
+    } after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:rounded-full after:transition-all after:duration-300 ${
+      isActive
+        ? "after:w-full after:bg-accent-500"
+        : "after:w-0 hover:after:w-full after:bg-accent-500"
     }`;
 
   return (
-    <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/95 backdrop-blur-md shadow-lg"
-          : "bg-white shadow-sm"
-      }`}
-    >
-      <div className="container-main">
-        <div className="flex items-center justify-between h-16 lg:h-[72px]">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl rotate-0 group-hover:rotate-6 transition-transform duration-300" />
-              <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-lg">
-                ZN
+    <>
+      {/* Milliy naqshli yuqori chiziq */}
+      <div className="h-1.5 bg-gradient-to-r from-primary-700 via-accent-500 to-primary-700" />
+
+      <header
+        className={`sticky top-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? "bg-white/95 backdrop-blur-xl shadow-lg shadow-primary-900/5"
+            : "bg-white"
+        }`}
+      >
+        <div className="container-main">
+          <div className="flex items-center justify-between h-16 lg:h-[72px]">
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="relative w-11 h-11">
+                {/* Ornament-style logo */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl rotate-0 group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-primary-500/30" />
+                <div className="absolute inset-[3px] border border-accent-500/40 rounded-lg rotate-0 group-hover:rotate-12 transition-all duration-500" />
+                <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-lg rotate-0 group-hover:rotate-12 transition-all duration-500">
+                  ZN
+                </div>
               </div>
-            </div>
-            <div className="hidden sm:block">
-              <span className="font-bold text-primary-700 text-lg block leading-tight">
-                Ziya Nuri
-              </span>
-              <span className="text-[10px] text-gray-400 uppercase tracking-widest">
-                {t("home.hero_subtitle")}
-              </span>
-            </div>
-          </Link>
+              <div className="hidden sm:block">
+                <span className="font-bold text-primary-800 text-lg block leading-tight tracking-tight">
+                  Ziya Nuri
+                </span>
+                <span className="text-[10px] text-accent-600 uppercase tracking-[0.2em] font-medium">
+                  {t("home.hero_subtitle")}
+                </span>
+              </div>
+            </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {links.map((l) => (
-              <NavLink key={l.to} to={l.to} className={navClass} end={l.to === "/"}>
-                {l.label}
-              </NavLink>
-            ))}
-          </nav>
+            {/* Desktop nav */}
+            <nav className="hidden lg:flex items-center gap-0.5">
+              {links.map((l) => (
+                <NavLink key={l.to} to={l.to} className={navClass} end={l.to === "/"}>
+                  {l.label}
+                </NavLink>
+              ))}
+            </nav>
 
-          {/* Right side */}
-          <div className="flex items-center gap-3">
-            <LangSwitcher />
-            <button
-              className="lg:hidden p-2 text-gray-600 hover:text-primary-500 hover:bg-gray-100 rounded-lg transition"
-              onClick={() => setOpen(!open)}
-            >
-              {open ? <HiX size={24} /> : <HiMenu size={24} />}
-            </button>
+            {/* Right side */}
+            <div className="flex items-center gap-3">
+              <LangSwitcher />
+              <button
+                className="lg:hidden p-2 text-gray-600 hover:text-accent-500 hover:bg-sand-100 rounded-xl transition-all duration-200"
+                onClick={() => setOpen(!open)}
+              >
+                {open ? <HiX size={24} /> : <HiMenu size={24} />}
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile nav */}
+          <div
+            className={`lg:hidden overflow-hidden transition-all duration-400 ${
+              open ? "max-h-[500px] pb-4" : "max-h-0"
+            }`}
+          >
+            <nav className="border-t border-gray-100 pt-2 space-y-1">
+              {links.map((l) => (
+                <NavLink
+                  key={l.to}
+                  to={l.to}
+                  className={({ isActive }) =>
+                    `block px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                      isActive
+                        ? "bg-gradient-to-r from-primary-50 to-sand-50 text-accent-600 border-l-3 border-accent-500"
+                        : "text-gray-600 hover:bg-sand-50 hover:text-accent-600"
+                    }`
+                  }
+                  onClick={() => setOpen(false)}
+                  end={l.to === "/"}
+                >
+                  {l.label}
+                </NavLink>
+              ))}
+            </nav>
           </div>
         </div>
 
-        {/* Mobile nav */}
-        <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ${
-            open ? "max-h-96 pb-4" : "max-h-0"
-          }`}
-        >
-          <nav className="border-t pt-2 space-y-1">
-            {links.map((l) => (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                className={({ isActive }) =>
-                  `block px-4 py-2.5 rounded-lg text-sm font-medium transition ${
-                    isActive
-                      ? "bg-primary-50 text-primary-600"
-                      : "text-gray-600 hover:bg-gray-50"
-                  }`
-                }
-                onClick={() => setOpen(false)}
-                end={l.to === "/"}
-              >
-                {l.label}
-              </NavLink>
-            ))}
-          </nav>
-        </div>
-      </div>
-    </header>
+        {/* Naqshli pastki chiziq */}
+        <div className={`ornament-line transition-opacity duration-300 ${scrolled ? 'opacity-100' : 'opacity-40'}`} />
+      </header>
+    </>
   );
 }

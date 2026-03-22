@@ -1,69 +1,108 @@
 {
   "nav": {
     "home": "Bas bet",
-    "about": "Oraylıq haqqında",
-    "heritage": "Mıras haqqında",
-    "projects": "Joybarlalar",
+    "about": "Oray haqqında",
+    "heritage": "Mıras",
+    "projects": "Joybarlar",
     "media": "Mediateka",
-    "education": "Tarbiyaviy kontent",
+    "education": "Tálim-tárbiya",
     "events": "Ilajlar",
     "contact": "Baylanıs"
   },
   "home": {
     "hero_title": "Ziya Nuri",
-    "hero_subtitle": "Ruwxıy-ağartıwshılıq oraylığı",
-    "latest_news": "Soñğı jañalıqlar",
-    "our_projects": "Bizdiñ joybarlalar",
-    "stats_title": "Jetiskenlikler",
-    "view_all": "Barlığın kóriw",
+    "hero_subtitle": "Ruwxıy-aǵartıwshılıq orayı",
+    "latest_news": "Sońǵı jańalıqlar",
+    "our_projects": "Bizdiń joybarlar",
+    "stats_title": "Sanlı kórsetkishler",
+    "view_all": "Barlıǵın kóriw",
     "read_more": "Tolıq oqıw"
   },
   "about": {
-    "title": "Oraylıq haqqında",
+    "title": "Oray haqqında",
     "history": "Tariyxı",
     "mission": "Missiya hám strategiya",
-    "structure": "Struktura",
-    "leadership": "Basshılıq"
+    "structure": "Dúzilisi",
+    "leadership": "Basshılıq",
+    "hero_label": "Oray haqqında",
+    "hero_desc": "Qaraqalpaqstan Respublikasınıń ruwxıy-aǵartıwshılıq orayı — milliy qádriyatlardı saqlaw hám keleshek áwladlarǵa jetkeriw",
+    "feature_education": "Aǵartıwshılıq",
+    "feature_education_desc": "Xalıqqa bilim hám mánawiyat tarqatıw",
+    "feature_heritage": "Mıras",
+    "feature_heritage_desc": "Milliy mırastı saqlaw hám úgit-násiyatlaw",
+    "feature_cooperation": "Hámkarlıq",
+    "feature_cooperation_desc": "Xalıqaralıq hámkarlar menen islesiw",
+    "feature_innovation": "Innovaciya",
+    "feature_innovation_desc": "Zamanagóy jantasıwlar hám texnologiyalar"
   },
   "heritage": {
-    "title": "Mıras haqqında",
-    "historical": "Tariyxıy jaylalar",
-    "monuments": "Yadgorlikler",
+    "title": "Mádaniy mıras",
+    "historical": "Tariyxıy orınlar",
+    "monuments": "Eskertkishler",
     "traditions": "Milliy dástúrler",
-    "cuisine": "Milliy asxana"
+    "cuisine": "Milliy taǵamlar",
+    "hero_label": "Mádaniy baylıq",
+    "hero_desc": "Qaraqalpaqstannıń bay mádaniy mırası hám dástúrleri",
+    "on_map": "Kartada",
+    "details": "Tolıq maǵlıwmat"
+  },
+  "events": {
+    "hero_label": "Ilajlar",
+    "hero_desc": "Oray tárepinen shólkemlestiriletuǵın ilajlar hám ushırasıwlar",
+    "seminar": "Seminar",
+    "conference": "Konferenciya",
+    "competition": "Tańlaw"
   },
   "projects": {
-    "title": "Joybarlalar",
-    "completed": "Ámelge asırılğanlar",
-    "current": "Házirgiler",
-    "grants": "Konkurslar hám grantlar"
+    "title": "Joybarlar",
+    "completed": "Ámelge asırılǵanlar",
+    "current": "Házirgi joybarlar",
+    "grants": "Tańlawlar hám grantlar",
+    "hero_label": "Joybarlar",
+    "hero_desc": "Oray tárepinen ámelge asırılıp atırǵan joybarlar"
   },
   "media": {
     "title": "Mediateka",
     "photos": "Fotogalereya",
     "videos": "Videolar",
     "audio": "Audiolar",
-    "books": "Elektron kitaplar"
+    "books": "Elektron kitaplar",
+    "hero_label": "Galereya",
+    "hero_desc": "Foto, video, audio hám kitaplar toplamı",
+    "download": "Júklep alıw"
   },
   "contact": {
     "title": "Baylanıs",
     "address": "Mánzil",
     "phone": "Telefon",
-    "email": "Email",
+    "email": "Elektron pochta",
     "send_message": "Xabar jiberiw",
-    "name": "Atıñız",
-    "message": "Xabarıñız",
+    "name": "Atıńız",
+    "message": "Xabarıńız",
     "submit": "Jiberiw",
-    "success": "Xabarıñız jiberildi!"
+    "success": "Xabarıńız jiberildi!",
+    "hero_label": "Baylanısıw",
+    "hero_desc": "Sorawlarıńız bolsa yamasa hámkarlıq qılmaqshı bolsańız, biz benen baylanısıń",
+    "our_address": "Bizdiń mánzil",
+    "map_loading": "Karta júklenip atır...",
+    "form_desc": "Bizge xabar qaldırıń, tez arada juwap beremiz",
+    "success_desc": "Xabarıńız tabıslı jiberildi",
+    "send_again": "Jáne xabar jiberiw",
+    "name_placeholder": "Atıńızdı jazıń",
+    "message_placeholder": "Xabarıńızdı jazıń..."
   },
   "footer": {
-    "rights": "Barlıq huqıqlar qorğalğan",
-    "social": "Sociallıq tarmaqlar"
+    "rights": "Barlıq huqıqlar qorǵalǵan",
+    "social": "Sociallıq tarmaqlar",
+    "description": "Qaraqalpaqstan Respublikasınıń ruwxıy-aǵartıwshılıq orayı. Milliy qádriyatlardı saqlaw hám keleshek áwladlarǵa jetkeriw.",
+    "pages": "Betler",
+    "address_value": "Nókis, Qaraqalpaqstan Respublikası"
   },
   "common": {
     "loading": "Júklenip atır...",
-    "error": "Qátelik",
+    "error": "Qátelik júz berdi",
     "back": "Artqa",
-    "search": "Izlew"
+    "search": "Izlew",
+    "no_data": "Maǵlıwmat tabılmadı"
   }
 }

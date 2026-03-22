@@ -16,39 +16,47 @@ export default function About() {
   }, []);
 
   const features = [
-    { icon: HiAcademicCap, title: "Ma'rifat", desc: "Xalqqa bilim va ma'naviyat ulashish" },
-    { icon: HiGlobe, title: "Meros", desc: "Milliy merosni saqlash va targ'ib qilish" },
-    { icon: HiUserGroup, title: "Hamkorlik", desc: "Xalqaro hamkorlar bilan ishlash" },
-    { icon: HiLightBulb, title: "Innovatsiya", desc: "Zamonaviy yondashuvlar va texnologiyalar" },
+    { icon: HiAcademicCap, title: t("about.feature_education"), desc: t("about.feature_education_desc"), color: "from-blue-500 to-primary-600" },
+    { icon: HiGlobe, title: t("about.feature_heritage"), desc: t("about.feature_heritage_desc"), color: "from-accent-500 to-accent-600" },
+    { icon: HiUserGroup, title: t("about.feature_cooperation"), desc: t("about.feature_cooperation_desc"), color: "from-emerald-500 to-emerald-600" },
+    { icon: HiLightBulb, title: t("about.feature_innovation"), desc: t("about.feature_innovation_desc"), color: "from-purple-500 to-purple-600" },
   ];
 
   return (
     <div>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-primary-700 to-primary-900 text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5 pattern-bg" />
+      <section className="relative bg-gradient-to-br from-primary-800 via-primary-900 to-black text-white py-24 overflow-hidden">
+        <div className="absolute inset-0 kk-pattern-main opacity-60" />
+        <div className="absolute left-0 top-0 bottom-0 w-14 kk-border-vertical opacity-30" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-accent-500/10 rounded-full blur-[120px]" />
+
         <div className="container-main relative z-10">
           <div className="max-w-3xl animate-fade-in-up">
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-4">{t("about.title")}</h1>
-            <div className="w-20 h-1 bg-accent-500 rounded-full mb-6" />
-            <p className="text-lg text-white/70">
-              Qoraqalpog'iston Respublikasining ruhiy-ma'rifiy markazi
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-10 h-1 bg-accent-500 rounded-full" />
+              <span className="text-accent-400 text-sm font-medium uppercase tracking-[0.2em]">
+                {t("about.hero_label")}
+              </span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-extrabold mb-5 leading-tight">{t("about.title")}</h1>
+            <p className="text-lg text-white/60 leading-relaxed max-w-xl">
+              {t("about.hero_desc")}
             </p>
           </div>
         </div>
       </section>
 
       {/* Features Grid */}
-      <section className="py-16 -mt-10 relative z-10">
+      <section className="py-8 -mt-16 relative z-10">
         <div className="container-main">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 stagger-children">
             {features.map((f, i) => (
-              <div key={i} className="card p-6 text-center group">
-                <div className="w-14 h-14 bg-primary-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-500 group-hover:text-white text-primary-500 transition-all duration-300">
-                  <f.icon size={28} />
+              <div key={i} className="bg-white rounded-2xl p-6 text-center group shadow-lg shadow-gray-200/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 border border-gray-100">
+                <div className={`w-14 h-14 bg-gradient-to-br ${f.color} rounded-2xl flex items-center justify-center mx-auto mb-4 text-white shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
+                  <f.icon className="w-7 h-7" />
                 </div>
-                <h3 className="font-bold mb-1">{f.title}</h3>
-                <p className="text-sm text-gray-500">{f.desc}</p>
+                <h3 className="font-bold text-primary-800 mb-1">{f.title}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
@@ -57,48 +65,63 @@ export default function About() {
 
       {/* Page Content */}
       {page && tr(page)?.content && (
-        <section className="py-16">
+        <section className="py-20">
           <div className="container-main max-w-4xl">
-            <div
-              className="prose prose-lg max-w-none prose-headings:text-primary-700 prose-a:text-primary-500"
-              dangerouslySetInnerHTML={{ __html: tr(page).content }}
-            />
+            <div className="relative">
+              <div className="absolute -left-4 top-0 bottom-0 w-1.5 rounded-full bg-gradient-to-b from-accent-500 via-primary-500 to-accent-500 opacity-30" />
+              <div
+                className="prose prose-lg max-w-none prose-headings:text-primary-800 prose-a:text-accent-600 prose-p:text-gray-600 prose-p:leading-relaxed pl-6"
+                dangerouslySetInnerHTML={{ __html: tr(page).content }}
+              />
+            </div>
           </div>
         </section>
       )}
 
+      {/* Ornament divider */}
+      <div className="section-divider" />
+
       {/* Leadership */}
       {leaders.length > 0 && (
-        <section className="py-20 bg-gray-50">
-          <div className="container-main">
-            <div className="text-center mb-12">
-              <h2 className="section-title">{t("about.leadership")}</h2>
-              <div className="w-16 h-1 bg-gradient-to-r from-primary-500 to-accent-500 mx-auto mt-3 rounded-full" />
+        <section className="py-24 bg-gradient-to-b from-sand-50 to-white relative overflow-hidden">
+          <div className="absolute inset-0 kk-pattern-horn opacity-40" />
+          <div className="absolute right-0 top-0 bottom-0 w-10 kk-border-vertical opacity-20" />
+          <div className="container-main relative z-10">
+            <div className="text-center mb-14">
+              <h2 className="text-2xl md:text-3xl font-bold text-primary-800">{t("about.leadership")}</h2>
+              <div className="flex items-center justify-center gap-3 mt-4">
+                <div className="w-12 h-1 bg-accent-500 rounded-full" />
+                <div className="w-3 h-3 rotate-45 bg-accent-500 rounded-sm" />
+                <div className="w-12 h-1 bg-accent-500 rounded-full" />
+              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 stagger-children">
               {leaders.map((l) => (
-                <div key={l._id} className="card p-8 text-center group">
-                  <div className="relative w-36 h-36 mx-auto mb-5">
+                <div key={l._id} className="bg-white rounded-2xl p-8 text-center group shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100">
+                  <div className="relative w-36 h-36 mx-auto mb-6">
+                    <div className="absolute -inset-2 rounded-full border-2 border-dashed border-accent-500/30 group-hover:rotate-12 transition-transform duration-700" />
                     {l.photo ? (
                       <img
                         src={l.photo}
                         alt=""
-                        className="w-full h-full rounded-full object-cover ring-4 ring-primary-100 group-hover:ring-primary-300 transition-all"
+                        className="w-full h-full rounded-full object-cover ring-4 ring-white shadow-lg group-hover:scale-105 transition-all duration-500"
                       />
                     ) : (
-                      <div className="w-full h-full rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center text-primary-400">
-                        <HiUserGroup size={48} />
+                      <div className="w-full h-full rounded-full bg-gradient-to-br from-primary-100 to-sand-200 flex items-center justify-center text-primary-400 ring-4 ring-white shadow-lg">
+                        <HiUserGroup className="w-12 h-12" />
                       </div>
                     )}
-                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-accent-500 text-white text-xs px-4 py-1 rounded-full font-medium whitespace-nowrap">
-                      {tr(l).role || ""}
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2">
+                      <span className="bg-gradient-to-r from-accent-500 to-accent-600 text-white text-xs px-4 py-1.5 rounded-full font-medium whitespace-nowrap shadow-lg shadow-accent-500/30">
+                        {tr(l).role || ""}
+                      </span>
                     </div>
                   </div>
-                  <h3 className="font-bold text-lg text-primary-700 mt-2">
+                  <h3 className="font-bold text-lg text-primary-800 mt-3">
                     {tr(l).fullName || "—"}
                   </h3>
                   {tr(l).bio && (
-                    <p className="text-gray-500 text-sm mt-3 line-clamp-3">{tr(l).bio}</p>
+                    <p className="text-gray-500 text-sm mt-3 line-clamp-3 leading-relaxed">{tr(l).bio}</p>
                   )}
                 </div>
               ))}

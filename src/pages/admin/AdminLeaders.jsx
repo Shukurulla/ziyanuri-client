@@ -1,104 +1,71 @@
 import { useEffect, useState } from "react";
-import { HiPlus, HiPencil, HiTrash } from "react-icons/hi";
+import { HiPlus, HiPencil, HiTrash, HiUserGroup } from "react-icons/hi";
 import api from "../../api";
+import Drawer from "../../components/admin/Drawer";
+import LangTabs, { LANGS } from "../../components/admin/LangTabs";
+import { Field, inputClass } from "../../components/admin/FormField";
 import ImageUpload from "../../components/admin/ImageUpload";
-
-const LANGS = ["kk_lat", "kk_cyr", "uz", "ru", "en"];
-const LANG_LABELS = { kk_lat: "QQ Lat", kk_cyr: "QQ Кир", uz: "UZ", ru: "RU", en: "EN" };
 
 export default function AdminLeaders() {
   const [items, setItems] = useState([]);
-  const [form, setForm] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [editing, setEditing] = useState(null);
+  const [form, setForm] = useState(null);
   const [activeLang, setActiveLang] = useState("kk_lat");
 
   const load = () => api.get("/leaders").then((r) => setItems(r.data));
   useEffect(() => { load(); }, []);
 
-  const openNew = () => {
-    setForm({ photo: "", position: 0, translations: LANGS.map((lang) => ({ lang, fullName: "", role: "", bio: "" })) });
-    setEditing(null);
-  };
-
+  const openNew = () => { setForm({ photo: "", position: 0, translations: LANGS.map((lang) => ({ lang, fullName: "", role: "", bio: "" })) }); setEditing(null); setDrawerOpen(true); };
   const openEdit = (item) => {
     setEditing(item.id);
-    setForm({
-      photo: item.photo || "", position: item.position,
-      translations: LANGS.map((lang) => {
-        const ex = item.translations.find((t) => t.lang === lang);
-        return { lang, fullName: ex?.fullName || "", role: ex?.role || "", bio: ex?.bio || "" };
-      }),
-    });
+    setForm({ photo: item.photo || "", position: item.position, translations: LANGS.map((lang) => { const ex = item.translations.find((t) => t.lang === lang); return { lang, fullName: ex?.fullName || "", role: ex?.role || "", bio: ex?.bio || "" }; }) });
+    setDrawerOpen(true);
   };
-
-  const save = async () => {
-    try {
-      if (editing) await api.put(`/leaders/${editing}`, form);
-      else await api.post("/leaders", form);
-      setForm(null);
-      load();
-    } catch (err) { alert(err.response?.data?.error || "Xatolik"); }
-  };
-
-  const remove = async (id) => {
-    if (!confirm("O'chirmoqchimisiz?")) return;
-    await api.delete(`/leaders/${id}`);
-    load();
-  };
+  const save = async () => { try { if (editing) await api.put(`/leaders/${editing}`, form); else await api.post("/leaders", form); setDrawerOpen(false); load(); } catch (err) { alert(err.response?.data?.error || "Xatolik"); } };
+  const remove = async (id) => { if (!confirm("O'chirmoqchimisiz?")) return; await api.delete(`/leaders/${id}`); load(); };
+  const updateTr = (lang, field, value) => { setForm({ ...form, translations: form.translations.map((t) => t.lang === lang ? { ...t, [field]: value } : t) }); };
 
   return (
-    <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Rahbariyat</h1>
-        <button onClick={openNew} className="btn-primary flex items-center gap-2"><HiPlus /> Yangi</button>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div><h1 className="text-2xl font-bold text-gray-900">Rahbariyat</h1><p className="text-sm text-gray-500 mt-1">{items.length} ta</p></div>
+        <button onClick={openNew} className="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl hover:bg-gray-800"><HiPlus className="w-4 h-4" /> Yangi</button>
       </div>
 
-      {form && (
-        <div className="bg-white rounded-xl p-6 shadow-sm mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <ImageUpload value={form.photo} onChange={(v) => setForm({ ...form, photo: v })} label="Foto" />
-            <input type="number" placeholder="Pozitsiya" value={form.position} onChange={(e) => setForm({ ...form, position: Number(e.target.value) })} className="px-3 py-2 border rounded-lg" />
-          </div>
-
-          <div className="flex gap-1 mb-4 border-b">
-            {LANGS.map((lang) => (
-              <button key={lang} onClick={() => setActiveLang(lang)} className={`px-3 py-2 text-sm font-medium border-b-2 ${activeLang === lang ? "border-primary-500 text-primary-500" : "border-transparent text-gray-500"}`}>
-                {LANG_LABELS[lang]}
-              </button>
-            ))}
-          </div>
-
-          {LANGS.filter((l) => l === activeLang).map((lang) => {
-            const tr = form.translations.find((t) => t.lang === lang);
-            return (
-              <div key={lang} className="space-y-3">
-                <input placeholder="To'liq ism" value={tr?.fullName || ""} onChange={(e) => setForm({ ...form, translations: form.translations.map((t) => t.lang === lang ? { ...t, fullName: e.target.value } : t) })} className="w-full px-3 py-2 border rounded-lg" />
-                <input placeholder="Lavozim" value={tr?.role || ""} onChange={(e) => setForm({ ...form, translations: form.translations.map((t) => t.lang === lang ? { ...t, role: e.target.value } : t) })} className="w-full px-3 py-2 border rounded-lg" />
-                <textarea placeholder="Tarjimai hol" rows={4} value={tr?.bio || ""} onChange={(e) => setForm({ ...form, translations: form.translations.map((t) => t.lang === lang ? { ...t, bio: e.target.value } : t) })} className="w-full px-3 py-2 border rounded-lg resize-none" />
-              </div>
-            );
-          })}
-
-          <div className="flex gap-2 mt-4">
-            <button onClick={save} className="btn-primary">Saqlash</button>
-            <button onClick={() => setForm(null)} className="px-4 py-2 border rounded-lg">Bekor</button>
-          </div>
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {items.map((item) => (
-          <div key={item.id} className="bg-white rounded-xl shadow-sm p-6 text-center">
-            {item.photo ? <img src={item.photo} alt="" className="w-20 h-20 rounded-full mx-auto mb-3 object-cover" /> : <div className="w-20 h-20 rounded-full mx-auto mb-3 bg-gray-200" />}
-            <p className="font-medium">{item.translations?.[0]?.fullName || "—"}</p>
-            <p className="text-sm text-gray-500">{item.translations?.[0]?.role || ""}</p>
-            <div className="flex justify-center gap-2 mt-3">
-              <button onClick={() => openEdit(item)} className="text-blue-500"><HiPencil size={18} /></button>
-              <button onClick={() => remove(item.id)} className="text-red-500"><HiTrash size={18} /></button>
+          <div key={item.id} className="bg-white rounded-2xl border border-gray-200 p-6 text-center hover:shadow-md transition-shadow">
+            {item.photo ? <img src={item.photo} alt="" className="w-24 h-24 rounded-2xl mx-auto object-cover border-2 border-gray-100" /> : <div className="w-24 h-24 rounded-2xl mx-auto bg-gray-100 flex items-center justify-center"><HiUserGroup className="w-8 h-8 text-gray-300" /></div>}
+            <h3 className="font-semibold text-gray-900 mt-4">{item.translations?.[0]?.fullName || "—"}</h3>
+            <p className="text-sm text-gray-500 mt-0.5">{item.translations?.[0]?.role || ""}</p>
+            {item.translations?.[0]?.bio && <p className="text-xs text-gray-400 mt-2 line-clamp-2">{item.translations[0].bio}</p>}
+            <div className="flex gap-1 mt-4 pt-3 border-t border-gray-100 justify-center">
+              <button onClick={() => openEdit(item)} className="py-1.5 px-4 text-xs font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg flex items-center gap-1"><HiPencil className="w-3.5 h-3.5" /> Tahrirlash</button>
+              <button onClick={() => remove(item.id)} className="py-1.5 px-3 text-xs text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg"><HiTrash className="w-3.5 h-3.5" /></button>
             </div>
           </div>
         ))}
+        {items.length === 0 && <div className="col-span-full py-16 text-center"><HiUserGroup className="w-12 h-12 text-gray-200 mx-auto mb-3" /><p className="text-gray-400 text-sm">Rahbarlar yo'q</p></div>}
       </div>
+
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} title={editing ? "Tahrirlash" : "Yangi rahbar"}>
+        {form && (
+          <div className="space-y-5">
+            <ImageUpload value={form.photo} onChange={(v) => setForm({ ...form, photo: v })} label="Foto" />
+            <Field label="Pozitsiya (tartib)"><input type="number" value={form.position} onChange={(e) => setForm({ ...form, position: Number(e.target.value) })} className={inputClass} /></Field>
+            <div className="border-t pt-5"><LangTabs activeLang={activeLang} onChange={setActiveLang} /></div>
+            {LANGS.filter((l) => l === activeLang).map((lang) => {
+              const tr = form.translations.find((t) => t.lang === lang);
+              return (<div key={lang} className="space-y-4"><Field label="To'liq ism"><input value={tr?.fullName || ""} onChange={(e) => updateTr(lang, "fullName", e.target.value)} className={inputClass} /></Field><Field label="Lavozim"><input value={tr?.role || ""} onChange={(e) => updateTr(lang, "role", e.target.value)} className={inputClass} /></Field><Field label="Tarjimai hol"><textarea rows={4} value={tr?.bio || ""} onChange={(e) => updateTr(lang, "bio", e.target.value)} className={`${inputClass} resize-none`} /></Field></div>);
+            })}
+            <div className="flex gap-3 pt-4 border-t pt-4">
+              <button onClick={save} className="flex-1 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl hover:bg-gray-800">{editing ? "Saqlash" : "Yaratish"}</button>
+              <button onClick={() => setDrawerOpen(false)} className="px-4 py-2.5 border border-gray-200 text-sm rounded-xl hover:bg-gray-50">Bekor</button>
+            </div>
+          </div>
+        )}
+      </Drawer>
     </div>
   );
 }

@@ -2,10 +2,10 @@
   "nav": {
     "home": "Bosh sahifa",
     "about": "Markaz haqida",
-    "heritage": "Meros haqida",
+    "heritage": "Meros",
     "projects": "Loyihalar",
     "media": "Mediateka",
-    "education": "Tarbiyaviy kontent",
+    "education": "Ta'lim-tarbiya",
     "events": "Tadbirlar",
     "contact": "Aloqa"
   },
@@ -14,7 +14,7 @@
     "hero_subtitle": "Ma'naviy-ma'rifiy markaz",
     "latest_news": "So'nggi yangiliklar",
     "our_projects": "Bizning loyihalar",
-    "stats_title": "Yutuqlar",
+    "stats_title": "Raqamli ko'rsatkichlar",
     "view_all": "Barchasini ko'rish",
     "read_more": "To'liq o'qish"
   },
@@ -23,27 +23,53 @@
     "history": "Tarix",
     "mission": "Missiya va strategiya",
     "structure": "Tuzilma",
-    "leadership": "Rahbariyat"
+    "leadership": "Rahbariyat",
+    "hero_label": "Markaz haqida",
+    "hero_desc": "Qoraqalpog'iston Respublikasining ma'naviy-ma'rifiy markazi — milliy qadriyatlarni saqlash va kelajak avlodlarga yetkazish",
+    "feature_education": "Ma'rifat",
+    "feature_education_desc": "Xalqqa bilim va ma'naviyat ulashish",
+    "feature_heritage": "Meros",
+    "feature_heritage_desc": "Milliy merosni saqlash va targ'ib qilish",
+    "feature_cooperation": "Hamkorlik",
+    "feature_cooperation_desc": "Xalqaro hamkorlar bilan ishlash",
+    "feature_innovation": "Innovatsiya",
+    "feature_innovation_desc": "Zamonaviy yondashuvlar va texnologiyalar"
   },
   "heritage": {
-    "title": "Meros haqida",
+    "title": "Madaniy meros",
     "historical": "Tarixiy joylar",
     "monuments": "Yodgorliklar",
     "traditions": "Milliy an'analar",
-    "cuisine": "Milliy oshxona"
+    "cuisine": "Milliy taomlar",
+    "hero_label": "Madaniy boylik",
+    "hero_desc": "Qoraqalpog'istonning boy madaniy merosi va an'analari",
+    "on_map": "Xaritada",
+    "details": "Batafsil"
+  },
+  "events": {
+    "hero_label": "Tadbirlar",
+    "hero_desc": "Markaz tomonidan tashkil etiladigan tadbirlar va uchrashuvlar",
+    "seminar": "Seminar",
+    "conference": "Konferensiya",
+    "competition": "Konkurs"
   },
   "projects": {
     "title": "Loyihalar",
     "completed": "Amalga oshirilganlar",
     "current": "Joriy loyihalar",
-    "grants": "Konkurslar va grantlar"
+    "grants": "Konkurslar va grantlar",
+    "hero_label": "Loyihalar",
+    "hero_desc": "Markaz tomonidan amalga oshirilayotgan loyihalar"
   },
   "media": {
     "title": "Mediateka",
     "photos": "Fotogalereya",
     "videos": "Videolar",
     "audio": "Audiolar",
-    "books": "Elektron kitoblar"
+    "books": "Elektron kitoblar",
+    "hero_label": "Galereya",
+    "hero_desc": "Foto, video, audio va kitoblar to'plami",
+    "download": "Yuklab olish"
   },
   "contact": {
     "title": "Aloqa",
@@ -54,16 +80,29 @@
     "name": "Ismingiz",
     "message": "Xabaringiz",
     "submit": "Yuborish",
-    "success": "Xabaringiz yuborildi!"
+    "success": "Xabaringiz yuborildi!",
+    "hero_label": "Bog'lanish",
+    "hero_desc": "Savollaringiz bo'lsa yoki hamkorlik qilmoqchi bo'lsangiz, biz bilan bog'laning",
+    "our_address": "Bizning manzil",
+    "map_loading": "Xarita yuklanmoqda...",
+    "form_desc": "Bizga xabar qoldiring, tez orada javob beramiz",
+    "success_desc": "Xabaringiz muvaffaqiyatli yuborildi",
+    "send_again": "Yana xabar yuborish",
+    "name_placeholder": "Ismingiz",
+    "message_placeholder": "Xabaringizni yozing..."
   },
   "footer": {
     "rights": "Barcha huquqlar himoyalangan",
-    "social": "Ijtimoiy tarmoqlar"
+    "social": "Ijtimoiy tarmoqlar",
+    "description": "Qoraqalpog'iston Respublikasining ma'naviy-ma'rifiy markazi. Milliy qadriyatlarni saqlash va kelajak avlodlarga yetkazish.",
+    "pages": "Sahifalar",
+    "address_value": "Nukus, Qoraqalpog'iston Respublikasi"
   },
   "common": {
     "loading": "Yuklanmoqda...",
-    "error": "Xatolik",
+    "error": "Xatolik yuz berdi",
     "back": "Orqaga",
-    "search": "Qidirish"
+    "search": "Qidirish",
+    "no_data": "Ma'lumot topilmadi"
   }
 }
