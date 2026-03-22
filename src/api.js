@@ -2,7 +2,7 @@ import axios from "axios";
 import i18n from "./i18n";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "/api",
+  baseURL: "http://localhost:7294/api",
 });
 
 api.interceptors.request.use((config) => {
@@ -23,7 +23,7 @@ api.interceptors.response.use(
       }
     }
     return Promise.reject(err);
-  }
+  },
 );
 
 export default api;
