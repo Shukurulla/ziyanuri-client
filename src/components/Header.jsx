@@ -27,9 +27,7 @@ export default function Header() {
 
   const navClass = ({ isActive }) =>
     `relative px-3 py-2 text-sm font-medium transition-all duration-300 ${
-      isActive
-        ? "text-accent-500"
-        : "text-gray-600 hover:text-accent-500"
+      isActive ? "text-accent-500" : "text-gray-600 hover:text-accent-500"
     } after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-0.5 after:rounded-full after:transition-all after:duration-300 ${
       isActive
         ? "after:w-full after:bg-accent-500"
@@ -51,15 +49,12 @@ export default function Header() {
         <div className="container-main">
           <div className="flex items-center justify-between h-16 lg:h-[72px]">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group">
-              <div className="relative w-11 h-11">
-                {/* Ornament-style logo */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-600 to-primary-800 rounded-xl rotate-0 group-hover:rotate-12 transition-all duration-500 shadow-lg shadow-primary-500/30" />
-                <div className="absolute inset-[3px] border border-accent-500/40 rounded-lg rotate-0 group-hover:rotate-12 transition-all duration-500" />
-                <div className="absolute inset-0 flex items-center justify-center text-white font-bold text-lg rotate-0 group-hover:rotate-12 transition-all duration-500">
-                  ZN
-                </div>
-              </div>
+            <Link to="/" className="flex items-center group">
+              <img
+                src="/logo.png"
+                alt="Ziya Nuri"
+                className="w-[100px] h-[100px] object-contain group-hover:scale-110 transition-transform duration-300"
+              />
               <div className="hidden sm:block">
                 <span className="font-bold text-primary-800 text-lg block leading-tight tracking-tight">
                   Ziya Nuri
@@ -73,7 +68,12 @@ export default function Header() {
             {/* Desktop nav */}
             <nav className="hidden lg:flex items-center gap-0.5">
               {links.map((l) => (
-                <NavLink key={l.to} to={l.to} className={navClass} end={l.to === "/"}>
+                <NavLink
+                  key={l.to}
+                  to={l.to}
+                  className={navClass}
+                  end={l.to === "/"}
+                >
                   {l.label}
                 </NavLink>
               ))}
@@ -120,7 +120,9 @@ export default function Header() {
         </div>
 
         {/* Naqshli pastki chiziq */}
-        <div className={`ornament-line transition-opacity duration-300 ${scrolled ? 'opacity-100' : 'opacity-40'}`} />
+        <div
+          className={`ornament-line transition-opacity duration-300 ${scrolled ? "opacity-100" : "opacity-40"}`}
+        />
       </header>
     </>
   );

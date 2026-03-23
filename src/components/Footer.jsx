@@ -22,13 +22,7 @@ export default function Footer() {
             {/* Logo & Description */}
             <div className="sm:col-span-2 md:col-span-5">
               <div className="flex items-center gap-3 mb-6">
-                <div className="relative w-14 h-14">
-                  <div className="absolute inset-0 bg-gradient-to-br from-accent-500 to-accent-600 rounded-xl shadow-lg shadow-accent-500/30" />
-                  <div className="absolute inset-[3px] border border-white/20 rounded-lg" />
-                  <div className="absolute inset-0 flex items-center justify-center font-bold text-xl text-white">
-                    ZN
-                  </div>
-                </div>
+                <img src="/logo.png" alt="Ziya Nuri" className="w-14 h-14 object-contain" />
                 <div>
                   <span className="font-bold text-xl block text-white">Ziya Nuri</span>
                   <span className="text-xs text-accent-400 uppercase tracking-[0.2em]">
