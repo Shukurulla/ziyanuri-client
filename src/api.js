@@ -2,7 +2,7 @@ import axios from "axios";
 import i18n from "./i18n";
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:7294/api",
+  baseURL: import.meta.env.VITE_API_URL || "/api",
 });
 
 api.interceptors.request.use((config) => {
