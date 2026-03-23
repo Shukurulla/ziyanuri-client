@@ -58,7 +58,7 @@ export default function NewsDetail() {
       {/* Content + Related sidebar */}
       <section className="py-16">
         <div className="container-main">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10">
             {/* Main content */}
             <div className="lg:col-span-2">
               {news.image && (

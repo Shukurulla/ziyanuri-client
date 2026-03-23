@@ -27,7 +27,7 @@ export default function Projects() {
       <section className="relative bg-gradient-to-br from-primary-800 via-primary-900 to-black text-white py-24 overflow-hidden">
         <div className="absolute inset-0 kk-pattern-main opacity-60" />
         <div className="absolute right-0 top-0 bottom-0 w-14 kk-border-vertical opacity-30" />
-        <div className="absolute top-0 left-1/2 w-80 h-80 bg-accent-500/10 rounded-full blur-[100px]" />
+        <div className="absolute top-0 left-1/2 w-40 h-40 sm:w-80 sm:h-80 bg-accent-500/10 rounded-full blur-[100px]" />
 
         <div className="container-main relative z-10 animate-fade-in-up">
           <div className="flex items-center gap-3 mb-5">
@@ -66,7 +66,7 @@ export default function Projects() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 stagger-children">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7 stagger-children">
             {projects.map((p) => {
               const sc = statusConfig[p.status] || statusConfig.current;
               return (
@@ -75,7 +75,7 @@ export default function Projects() {
                   to={`/projects/${p.slug}`}
                   className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 border border-gray-100"
                 >
-                  <div className="relative h-52 overflow-hidden">
+                  <div className="relative h-44 sm:h-52 overflow-hidden">
                     {p.image ? (
                       <img src={p.image} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                     ) : (
@@ -91,8 +91,8 @@ export default function Projects() {
                       </span>
                     </div>
                   </div>
-                  <div className="p-5">
-                    <h3 className="font-bold text-lg group-hover:text-primary-600 transition-colors mb-2 leading-snug">
+                  <div className="p-4 sm:p-5">
+                    <h3 className="font-bold text-base sm:text-lg group-hover:text-primary-600 transition-colors mb-2 leading-snug">
                       {tr(p).title || "—"}
                     </h3>
                     <p className="text-gray-400 text-sm line-clamp-2 leading-relaxed">

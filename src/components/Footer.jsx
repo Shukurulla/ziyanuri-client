@@ -18,9 +18,9 @@ export default function Footer() {
         <div className="absolute bottom-10 left-10 w-60 h-60 bg-primary-400/5 rounded-full blur-3xl" />
 
         <div className="container-main py-16 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-6 sm:gap-8 md:gap-10">
             {/* Logo & Description */}
-            <div className="md:col-span-5">
+            <div className="sm:col-span-2 md:col-span-5">
               <div className="flex items-center gap-3 mb-6">
                 <div className="relative w-14 h-14">
                   <div className="absolute inset-0 bg-gradient-to-br from-accent-500 to-accent-600 rounded-xl shadow-lg shadow-accent-500/30" />

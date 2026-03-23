@@ -28,7 +28,7 @@ export default function About() {
       <section className="relative bg-gradient-to-br from-primary-800 via-primary-900 to-black text-white py-24 overflow-hidden">
         <div className="absolute inset-0 kk-pattern-main opacity-60" />
         <div className="absolute left-0 top-0 bottom-0 w-14 kk-border-vertical opacity-30" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-accent-500/10 rounded-full blur-[120px]" />
+        <div className="absolute top-0 right-0 w-48 h-48 sm:w-96 sm:h-96 bg-accent-500/10 rounded-full blur-[120px]" />
 
         <div className="container-main relative z-10">
           <div className="max-w-3xl animate-fade-in-up">
@@ -49,11 +49,11 @@ export default function About() {
       {/* Features Grid */}
       <section className="py-8 -mt-16 relative z-10">
         <div className="container-main">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 stagger-children">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 stagger-children">
             {features.map((f, i) => (
-              <div key={i} className="bg-white rounded-2xl p-6 text-center group shadow-lg shadow-gray-200/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 border border-gray-100">
-                <div className={`w-14 h-14 bg-gradient-to-br ${f.color} rounded-2xl flex items-center justify-center mx-auto mb-4 text-white shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
-                  <f.icon className="w-7 h-7" />
+              <div key={i} className="bg-white rounded-2xl p-4 sm:p-6 text-center group shadow-lg shadow-gray-200/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 border border-gray-100">
+                <div className={`w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br ${f.color} rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 text-white shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
+                  <f.icon className="w-6 h-6 sm:w-7 sm:h-7" />
                 </div>
                 <h3 className="font-bold text-primary-800 mb-1">{f.title}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>

@@ -33,7 +33,7 @@ export default function MediaLibrary() {
       <section className="relative bg-gradient-to-br from-primary-800 via-primary-900 to-black text-white py-24 overflow-hidden">
         <div className="absolute inset-0 kk-pattern-main opacity-60" />
         <div className="absolute left-0 top-0 bottom-0 w-14 kk-border-vertical opacity-30" />
-        <div className="absolute top-0 right-1/4 w-80 h-80 bg-accent-500/10 rounded-full blur-[100px]" />
+        <div className="absolute top-0 right-1/4 w-40 h-40 sm:w-80 sm:h-80 bg-accent-500/10 rounded-full blur-[100px]" />
 
         <div className="container-main relative z-10 animate-fade-in-up">
           <div className="flex items-center gap-3 mb-5">
@@ -70,7 +70,7 @@ export default function MediaLibrary() {
 
           {/* Photo Grid */}
           {filter === "photo" && (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 stagger-children">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 stagger-children">
               {items.map((item) => (
                 <div
                   key={item._id}

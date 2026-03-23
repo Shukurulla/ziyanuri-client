@@ -32,10 +32,10 @@ export default function News() {
 
       <section className="py-16 bg-gradient-to-b from-sand-50 to-white">
         <div className="container-main">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 stagger-children">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7 stagger-children">
             {news.map((n) => (
               <Link key={n._id} to={`/news/${n.slug}`} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 border border-gray-100">
-                <div className="relative h-52 overflow-hidden">
+                <div className="relative h-44 sm:h-52 overflow-hidden">
                   {n.image ? (
                     <img src={n.image} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                   ) : (
@@ -55,7 +55,7 @@ export default function News() {
                     </div>
                   )}
                 </div>
-                <div className="p-5">
+                <div className="p-4 sm:p-5">
                   {n.publishedAt && (
                     <span className="text-xs text-gray-400 flex items-center gap-1.5 mb-2">
                       <HiCalendar className="w-3.5 h-3.5 text-accent-500" />

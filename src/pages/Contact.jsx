@@ -45,7 +45,7 @@ export default function Contact() {
       <section className="relative bg-gradient-to-br from-primary-800 via-primary-900 to-black text-white py-24 overflow-hidden">
         <div className="absolute inset-0 kk-pattern-main opacity-60" />
         <div className="absolute right-0 top-0 bottom-0 w-14 kk-border-vertical opacity-30" />
-        <div className="absolute bottom-0 right-0 w-80 h-80 bg-accent-500/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 right-0 w-40 h-40 sm:w-80 sm:h-80 bg-accent-500/10 rounded-full blur-[100px]" />
 
         <div className="container-main relative z-10 animate-fade-in-up">
           <div className="flex items-center gap-3 mb-5">
@@ -64,9 +64,9 @@ export default function Contact() {
       {/* Info Cards */}
       <section className="py-8 -mt-14 relative z-10">
         <div className="container-main">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 stagger-children">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-5 stagger-children">
             {infoCards.map((c, i) => (
-              <div key={i} className="bg-white rounded-2xl p-6 flex items-start gap-4 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 border border-gray-100">
+              <div key={i} className="bg-white rounded-2xl p-4 sm:p-6 flex items-start gap-3 sm:gap-4 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 border border-gray-100">
                 <div className={`w-12 h-12 bg-gradient-to-br ${c.gradient} rounded-xl flex items-center justify-center shrink-0 text-white shadow-lg`}>
                   <c.icon className="w-5 h-5" />
                 </div>
@@ -82,7 +82,7 @@ export default function Contact() {
 
       <section className="py-20 bg-gradient-to-b from-white to-sand-50">
         <div className="container-main">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
             {/* Map */}
             <div>
               <h3 className="text-lg font-bold text-primary-800 mb-4 flex items-center gap-2">
@@ -90,7 +90,7 @@ export default function Contact() {
                 {t("contact.our_address")}
               </h3>
               {contacts.lat && contacts.lng ? (
-                <div className="rounded-2xl overflow-hidden h-[420px] shadow-lg border border-gray-200">
+                <div className="rounded-2xl overflow-hidden h-[280px] sm:h-[350px] lg:h-[420px] shadow-lg border border-gray-200">
                   <iframe
                     title="map"
                     width="100%"
@@ -101,7 +101,7 @@ export default function Contact() {
                   />
                 </div>
               ) : (
-                <div className="rounded-2xl h-[420px] bg-sand-100 flex items-center justify-center text-gray-300">
+                <div className="rounded-2xl h-[280px] sm:h-[350px] lg:h-[420px] bg-sand-100 flex items-center justify-center text-gray-300">
                   <div className="text-center">
                     <HiMap className="w-16 h-16 mx-auto mb-3 text-gray-300" />
                     <span className="text-gray-400">{t("contact.map_loading")}</span>

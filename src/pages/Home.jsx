@@ -47,10 +47,10 @@ function StatCounter({ value, label, icon: Icon }) {
 
   return (
     <div ref={ref} className="text-center group">
-      <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-accent-400/20 to-accent-500/10 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border border-accent-500/20">
-        <Icon className="w-7 h-7 text-accent-600" />
+      <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-3 sm:mb-4 bg-gradient-to-br from-accent-400/20 to-accent-500/10 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 border border-accent-500/20">
+        <Icon className="w-5 h-5 sm:w-7 sm:h-7 text-accent-600" />
       </div>
-      <div className="text-4xl md:text-5xl font-extrabold gradient-text mb-2 tabular-nums">
+      <div className="text-2xl sm:text-4xl md:text-5xl font-extrabold gradient-text mb-1 sm:mb-2 tabular-nums">
         {count}+
       </div>
       <div className="text-gray-500 font-medium text-sm">{label}</div>
@@ -123,7 +123,7 @@ export default function Home() {
   return (
     <div>
       {/* ═══ Hero Section ═══ */}
-      <section className="relative h-[600px] md:h-[680px] overflow-hidden">
+      <section className="relative h-[480px] sm:h-[600px] md:h-[680px] overflow-hidden">
         {banners.length > 0 ? (
           banners.map((b, i) => (
             <div
@@ -154,11 +154,11 @@ export default function Home() {
                     <p className="text-lg md:text-xl text-white/70 mb-8 leading-relaxed">
                       {tr(b).subtitle || t("home.hero_subtitle")}
                     </p>
-                    <div className="flex flex-wrap gap-4">
-                      <Link to="/about" className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-3.5">
+                    <div className="flex flex-wrap gap-3 sm:gap-4">
+                      <Link to="/about" className="btn-secondary inline-flex items-center gap-2 text-base sm:text-lg px-5 sm:px-8 py-3 sm:py-3.5">
                         {t("home.read_more")} <HiArrowRight />
                       </Link>
-                      <Link to="/media" className="inline-flex items-center gap-2 text-white/80 hover:text-white border border-white/20 hover:border-white/40 px-6 py-3.5 rounded-xl font-medium transition-all duration-300 hover:bg-white/5">
+                      <Link to="/media" className="inline-flex items-center gap-2 text-white/80 hover:text-white border border-white/20 hover:border-white/40 px-4 sm:px-6 py-3 sm:py-3.5 rounded-xl font-medium transition-all duration-300 hover:bg-white/5">
                         <HiPlay className="w-5 h-5" /> {t("nav.media")}
                       </Link>
                     </div>
@@ -231,11 +231,11 @@ export default function Home() {
       {/* ═══ Features strip ═══ */}
       <section ref={featuresRef} className="py-10 -mt-6 relative z-10">
         <div className="container-main">
-          <div className={`grid grid-cols-2 lg:grid-cols-4 gap-5 ${featuresVisible ? 'stagger-children' : ''}`}>
+          <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 ${featuresVisible ? 'stagger-children' : ''}`}>
             {features.map((f, i) => (
-              <div key={i} className="bg-white rounded-2xl p-5 group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex items-start gap-4">
-                <div className={`w-12 h-12 bg-gradient-to-br ${f.color} rounded-xl flex items-center justify-center text-white shadow-lg shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                  <f.icon className="w-6 h-6" />
+              <div key={i} className="bg-white rounded-2xl p-4 sm:p-5 group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex items-start gap-3 sm:gap-4">
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br ${f.color} rounded-xl flex items-center justify-center text-white shadow-lg shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
+                  <f.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
                 <div>
                   <h3 className="font-bold text-primary-800 text-sm mb-0.5">{f.title}</h3>
@@ -262,7 +262,7 @@ export default function Home() {
                 <div className="w-12 h-1 bg-accent-500 rounded-full" />
               </div>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 stagger-children">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 md:gap-12 stagger-children">
               {stats.map((s, i) => (
                 <StatCounter
                   key={s._id}
@@ -289,10 +289,10 @@ export default function Home() {
           />
 
           {news.length > 0 ? (
-            <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 ${newsVisible ? 'stagger-children' : ''}`}>
+            <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7 ${newsVisible ? 'stagger-children' : ''}`}>
               {news.map((n) => (
                 <Link key={n._id} to={`/news/${n.slug}`} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 border border-gray-100/80">
-                  <div className="relative h-52 overflow-hidden">
+                  <div className="relative h-44 sm:h-52 overflow-hidden">
                     {n.image ? (
                       <img
                         src={n.image}
@@ -314,7 +314,7 @@ export default function Home() {
                       </div>
                     )}
                   </div>
-                  <div className="p-5">
+                  <div className="p-4 sm:p-5">
                     <h3 className="font-bold text-lg mb-2 group-hover:text-primary-600 transition-colors line-clamp-2 leading-snug">
                       {tr(n).title || "—"}
                     </h3>
@@ -345,8 +345,8 @@ export default function Home() {
           <div className="absolute inset-0 kk-pattern-main opacity-60" />
           <div className="absolute left-0 top-0 bottom-0 w-14 kk-border-vertical opacity-30" />
           <div className="absolute right-0 top-0 bottom-0 w-14 kk-border-vertical opacity-30" />
-          <div className="absolute top-0 right-0 w-96 h-96 bg-accent-500/10 rounded-full blur-[100px]" />
-          <div className="absolute bottom-0 left-0 w-72 h-72 bg-primary-400/10 rounded-full blur-[80px]" />
+          <div className="absolute top-0 right-0 w-48 h-48 sm:w-96 sm:h-96 bg-accent-500/10 rounded-full blur-[100px]" />
+          <div className="absolute bottom-0 left-0 w-36 h-36 sm:w-72 sm:h-72 bg-primary-400/10 rounded-full blur-[80px]" />
 
           <div className="container-main relative z-10">
             <SectionHeader
@@ -356,7 +356,7 @@ export default function Home() {
               light
             />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-7 stagger-children">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-7 stagger-children">
               {projects.map((p) => (
                 <Link
                   key={p._id}
@@ -364,16 +364,16 @@ export default function Home() {
                   className="group relative bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 hover:border-accent-500/30 hover:bg-white/10 transition-all duration-500"
                 >
                   {p.image ? (
-                    <div className="h-52 overflow-hidden">
+                    <div className="h-44 sm:h-52 overflow-hidden">
                       <img src={p.image} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent" />
                     </div>
                   ) : (
-                    <div className="h-52 placeholder-img flex items-center justify-center">
+                    <div className="h-44 sm:h-52 placeholder-img flex items-center justify-center">
                       <HiStar className="w-16 h-16 text-white/10" />
                     </div>
                   )}
-                  <div className="p-6 relative">
+                  <div className="p-4 sm:p-6 relative">
                     <span className="badge bg-accent-500/20 text-accent-400 border border-accent-500/30 mb-3">
                       {p.status === "completed" ? t("projects.completed") : t("projects.current")}
                     </span>

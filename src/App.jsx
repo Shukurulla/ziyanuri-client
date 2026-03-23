@@ -1,7 +1,14 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import Layout from "./components/Layout";
 import AdminLayout from "./components/admin/AdminLayout";
 import { ToastProvider } from "./components/admin/Toast";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
 
 // Public pages
 import NotFound from "./pages/NotFound";
@@ -36,6 +43,7 @@ import AdminCategories from "./pages/admin/AdminCategories";
 export default function App() {
   return (
     <ToastProvider>
+    <ScrollToTop />
     <Routes>
       {/* Public */}
       <Route element={<Layout />}>
