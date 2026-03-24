@@ -49,11 +49,11 @@ export default function Header() {
         <div className="container-main">
           <div className="flex items-center justify-between h-16 lg:h-[72px]">
             {/* Logo */}
-            <Link to="/" className="flex items-center group">
+            <Link to="/" className="flex items-center gap-3 group">
               <img
-                src="/logo.png"
+                src="/logo.jpg"
                 alt="Ziya Nuri"
-                className="w-[100px] h-[100px] object-contain group-hover:scale-110 transition-transform duration-300"
+                className="w-14 rounded-[10px] h-14 object-contain group-hover:scale-110 transition-transform duration-300"
               />
               <div className="hidden sm:block">
                 <span className="font-bold text-primary-800 text-lg block leading-tight tracking-tight">

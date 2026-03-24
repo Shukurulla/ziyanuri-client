@@ -22,9 +22,15 @@ export default function Footer() {
             {/* Logo & Description */}
             <div className="sm:col-span-2 md:col-span-5">
               <div className="flex items-center gap-3 mb-6">
-                <img src="/logo.png" alt="Ziya Nuri" className="w-14 h-14 object-contain" />
+                <img
+                  src="/logo.jpg"
+                  alt="Ziya Nuri"
+                  className="w-14 h-14 rounded-[10px] object-contain"
+                />
                 <div>
-                  <span className="font-bold text-xl block text-white">Ziya Nuri</span>
+                  <span className="font-bold text-xl block text-white">
+                    Ziya Nuri
+                  </span>
                   <span className="text-xs text-accent-400 uppercase tracking-[0.2em]">
                     {t("home.hero_subtitle")}
                   </span>
@@ -38,7 +44,11 @@ export default function Footer() {
               <div className="flex gap-3">
                 {[
                   { Icon: FaTelegram, color: "hover:bg-[#0088cc]" },
-                  { Icon: FaInstagram, color: "hover:bg-gradient-to-br hover:from-[#833ab4] hover:via-[#fd1d1d] hover:to-[#fcb045]" },
+                  {
+                    Icon: FaInstagram,
+                    color:
+                      "hover:bg-gradient-to-br hover:from-[#833ab4] hover:via-[#fd1d1d] hover:to-[#fcb045]",
+                  },
                   { Icon: FaFacebook, color: "hover:bg-[#1877f2]" },
                   { Icon: FaYoutube, color: "hover:bg-[#ff0000]" },
                 ].map(({ Icon, color }, i) => (
@@ -90,19 +100,61 @@ export default function Footer() {
               <ul className="space-y-4 text-sm text-gray-300">
                 <li className="flex items-start gap-3">
                   <span className="w-8 h-8 bg-accent-500/15 rounded-lg flex items-center justify-center shrink-0 mt-0.5 text-accent-400">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
                   </span>
                   {t("footer.address_value")}
                 </li>
                 <li className="flex items-center gap-3">
                   <span className="w-8 h-8 bg-accent-500/15 rounded-lg flex items-center justify-center shrink-0 text-accent-400">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                      />
+                    </svg>
                   </span>
                   +998 61 222-22-22
                 </li>
                 <li className="flex items-center gap-3">
                   <span className="w-8 h-8 bg-accent-500/15 rounded-lg flex items-center justify-center shrink-0 text-accent-400">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                      />
+                    </svg>
                   </span>
                   info@ziyanuri.uz
                 </li>
@@ -115,7 +167,9 @@ export default function Footer() {
             <p className="text-sm text-gray-400">
               &copy; {year} Ziya Nuri. {t("footer.rights")}.
             </p>
-            <p className="text-xs text-gray-400 font-medium tracking-wider">ziyanuri.uz</p>
+            <p className="text-xs text-gray-400 font-medium tracking-wider">
+              ziyanuri.uz
+            </p>
           </div>
         </div>
       </div>

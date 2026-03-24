@@ -7,7 +7,7 @@ import uz from "./locales/uz.json";
 import ru from "./locales/ru.json";
 import en from "./locales/en.json";
 
-const savedLang = localStorage.getItem("lang") || "kk_lat";
+const savedLang = localStorage.getItem("lang") || "kk_cyr";
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -18,7 +18,7 @@ i18n.use(initReactI18next).init({
     en: { translation: en },
   },
   lng: savedLang,
-  fallbackLng: "kk_lat",
+  fallbackLng: "kk_cyr",
   interpolation: { escapeValue: false },
 });
 
