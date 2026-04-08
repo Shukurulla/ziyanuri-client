@@ -229,16 +229,16 @@ export default function Home() {
                     <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/70 mb-8 leading-relaxed">
                       {tr(b).subtitle || t("home.hero_subtitle")}
                     </p>
-                    <div className="flex flex-wrap gap-3 sm:gap-4">
+                    <div className="hidden sm:flex flex-wrap gap-4">
                       <Link
                         to="/about"
-                        className="btn-secondary inline-flex items-center gap-2 text-base sm:text-lg px-5 sm:px-8 py-3 sm:py-3.5"
+                        className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-3.5"
                       >
                         {t("home.read_more")} <HiArrowRight />
                       </Link>
                       <Link
                         to="/media"
-                        className="inline-flex items-center gap-2 text-white/80 hover:text-white border border-white/20 hover:border-white/40 px-4 sm:px-6 py-3 sm:py-3.5 rounded-xl font-medium transition-all duration-300 hover:bg-white/5"
+                        className="inline-flex items-center gap-2 text-white/80 hover:text-white border border-white/20 hover:border-white/40 px-6 py-3.5 rounded-xl font-medium transition-all duration-300 hover:bg-white/5"
                       >
                         <HiPlay className="w-5 h-5" /> {t("nav.media")}
                       </Link>
