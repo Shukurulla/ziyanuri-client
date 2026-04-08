@@ -10,7 +10,7 @@
     "contact": "Contact"
   },
   "home": {
-    "hero_title": "Republican Center for Spirituality and Enlightenment the department of the Republic of Karakalpakstan",
+    "hero_title": "Department of the Republican Center for Spirituality and Enlightenment in the Republic of Karakalpakstan",
     "hero_subtitle": "Spiritual and Educational Center",
     "latest_news": "Latest News",
     "our_projects": "Our Projects",
@@ -26,8 +26,8 @@
     "leadership": "Leadership",
     "hero_label": "About",
     "hero_desc": "Spiritual and educational center of the Republic of Karakalpakstan — preserving national values and passing them to future generations",
-    "feature_education": "Education",
-    "feature_education_desc": "Spreading knowledge and spirituality",
+    "feature_education": "Spiritual & Educational Events",
+    "feature_education_desc": "From national revival — to national development",
     "feature_heritage": "Heritage",
     "feature_heritage_desc": "Preserving and promoting national heritage",
     "feature_cooperation": "Cooperation",
@@ -94,7 +94,7 @@
   "footer": {
     "rights": "All rights reserved",
     "social": "Social Media",
-    "description": "Spiritual and educational center of the Republic of Karakalpakstan. Preserving national values and passing them to future generations.",
+    "description": "Department of the Republican Center for Spirituality and Enlightenment in the Republic of Karakalpakstan. Preserving national values and passing them to future generations.",
     "pages": "Pages",
     "address_value": "Nukus, Republic of Karakalpakstan"
   },

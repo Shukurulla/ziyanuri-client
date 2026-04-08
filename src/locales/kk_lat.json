@@ -10,7 +10,7 @@
     "contact": "Baylanıs"
   },
   "home": {
-    "hero_title": "Республика Маънавият ва маърифат марказининг Қорақалпоғистон Республикаси бўлимига",
+    "hero_title": "Respublika Ruwxıylıq hám aǵartıwshılıq orayı Qaraqalpaqstan Respublikası bólimi",
     "hero_subtitle": "Ruwxıy-aǵartıwshılıq orayı",
     "latest_news": "Sońǵı jańalıqlar",
     "our_projects": "Bizdiń joybarlar",
@@ -26,10 +26,10 @@
     "leadership": "Basshılıq",
     "hero_label": "Oray haqqında",
     "hero_desc": "Qaraqalpaqstan Respublikasınıń ruwxıy-aǵartıwshılıq orayı — milliy qádriyatlardı saqlaw hám keleshek áwladlarǵa jetkeriw",
-    "feature_education": "Aǵartıwshılıq",
-    "feature_education_desc": "Xalıqqa bilim hám mánawiyat tarqatıw",
+    "feature_education": "Ruwxıy-aǵartıwshılıq ilajlar",
+    "feature_education_desc": "Milliy tikleniwden - milliy rawajlanıwǵa qaray",
     "feature_heritage": "Mıras",
-    "feature_heritage_desc": "Milliy mırastı saqlaw hám úgit-násiyatlaw",
+    "feature_heritage_desc": "Milliy Mırastı saqlaw hám úgit-násiyatlaw",
     "feature_cooperation": "Hámkarlıq",
     "feature_cooperation_desc": "Xalıqaralıq hámkarlar menen islesiw",
     "feature_innovation": "Innovaciya",
@@ -94,7 +94,7 @@
   "footer": {
     "rights": "Barlıq huqıqlar qorǵalǵan",
     "social": "Sociallıq tarmaqlar",
-    "description": "Qaraqalpaqstan Respublikasınıń ruwxıy-aǵartıwshılıq orayı. Milliy qádriyatlardı saqlaw hám keleshek áwladlarǵa jetkeriw.",
+    "description": "Respublika Ruwxıylıq hám aǵartıwshılıq orayı Qaraqalpaqstan Respublikası bólimi. Milliy qádriyatlardı saqlaw hám keleshek áwladlarǵa jetkeriw.",
     "pages": "Betler",
     "address_value": "Nókis, Qaraqalpaqstan Respublikası"
   },

@@ -223,10 +223,10 @@ export default function Home() {
                         {t("home.hero_subtitle")}
                       </span>
                     </div>
-                    <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-5 leading-[1.1]">
+                    <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-5 leading-[1.15]">
                       {tr(b).title || t("home.hero_title")}
                     </h1>
-                    <p className="text-lg md:text-xl text-white/70 mb-8 leading-relaxed">
+                    <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/70 mb-8 leading-relaxed">
                       {tr(b).subtitle || t("home.hero_subtitle")}
                     </p>
                     <div className="flex flex-wrap gap-3 sm:gap-4">
@@ -264,10 +264,10 @@ export default function Home() {
                     </span>
                   </div>
                 </div>
-                <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-5">
+                <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-7xl font-extrabold text-white mb-5 leading-[1.15] px-4">
                   {t("home.hero_title")}
                 </h1>
-                <p className="text-xl md:text-2xl text-white/60 mb-10">
+                <p className="text-sm sm:text-lg md:text-xl lg:text-2xl text-white/60 mb-10 px-4">
                   {t("home.hero_subtitle")}
                 </p>
                 <Link

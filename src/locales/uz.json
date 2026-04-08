@@ -10,7 +10,7 @@
     "contact": "Aloqa"
   },
   "home": {
-    "hero_title": "Respublika Ma'naviyat va ma'rifat markazining Qoraqalpog'iston Respublikasi bo'limiga",
+    "hero_title": "Respublika Ma'naviyat va ma'rifat markazining Qoraqalpog'iston Respublikasi bo'limi",
     "hero_subtitle": "Ma'naviy-ma'rifiy markaz",
     "latest_news": "So'nggi yangiliklar",
     "our_projects": "Bizning loyihalar",
@@ -26,10 +26,10 @@
     "leadership": "Rahbariyat",
     "hero_label": "Markaz haqida",
     "hero_desc": "Qoraqalpog'iston Respublikasining ma'naviy-ma'rifiy markazi — milliy qadriyatlarni saqlash va kelajak avlodlarga yetkazish",
-    "feature_education": "Ma'rifat",
-    "feature_education_desc": "Xalqqa bilim va ma'naviyat ulashish",
+    "feature_education": "Ma'naviy-ma'rifiy tadbirlar",
+    "feature_education_desc": "Milliy tiklanishdan — milliy rivojlanishga qarab",
     "feature_heritage": "Meros",
-    "feature_heritage_desc": "Milliy merosni saqlash va targ'ib qilish",
+    "feature_heritage_desc": "Milliy merosni saqlash va targ'ibot qilish",
     "feature_cooperation": "Hamkorlik",
     "feature_cooperation_desc": "Xalqaro hamkorlar bilan ishlash",
     "feature_innovation": "Innovatsiya",
@@ -94,7 +94,7 @@
   "footer": {
     "rights": "Barcha huquqlar himoyalangan",
     "social": "Ijtimoiy tarmoqlar",
-    "description": "Qoraqalpog'iston Respublikasining ma'naviy-ma'rifiy markazi. Milliy qadriyatlarni saqlash va kelajak avlodlarga yetkazish.",
+    "description": "Respublika Ma'naviyat va ma'rifat markazining Qoraqalpog'iston Respublikasi bo'limi. Milliy qadriyatlarni saqlash va kelajak avlodlarga yetkazish.",
     "pages": "Sahifalar",
     "address_value": "Nukus, Qoraqalpog'iston Respublikasi"
   },

@@ -49,17 +49,17 @@ export default function Header() {
         <div className="container-main">
           <div className="flex items-center justify-between h-16 lg:h-[72px]">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group">
+            <Link to="/" className="flex items-center gap-2 sm:gap-3 group max-w-[65%] sm:max-w-[30%]">
               <img
                 src="/logo.png"
                 alt="Ziya Nuri"
-                className="w-14 rounded-[10px] h-14 object-contain group-hover:scale-110 transition-transform duration-300"
+                className="w-10 h-10 sm:w-14 sm:h-14 rounded-[8px] sm:rounded-[10px] object-contain group-hover:scale-110 transition-transform duration-300 shrink-0"
               />
-              <div className="hidden sm:block">
-                <span className="font-bold text-primary-800 text-lg block leading-tight tracking-tight">
-                  Ziya Nuri
+              <div className="min-w-0">
+                <span className="font-bold text-primary-800 text-[10px] sm:text-xs block leading-tight tracking-tight line-clamp-2">
+                  {t("home.hero_title")}
                 </span>
-                <span className="text-[10px] text-accent-600 uppercase tracking-[0.2em] font-medium">
+                <span className="text-[7px] sm:text-[8px] text-accent-600 uppercase tracking-[0.15em] sm:tracking-[0.2em] font-medium hidden sm:block">
                   {t("home.hero_subtitle")}
                 </span>
               </div>
@@ -80,7 +80,7 @@ export default function Header() {
             </nav>
 
             {/* Right side */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center ">
               <LangSwitcher />
               <button
                 className="lg:hidden p-2 text-gray-600 hover:text-accent-500 hover:bg-sand-100 rounded-xl transition-all duration-200"
