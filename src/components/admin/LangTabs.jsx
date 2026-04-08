@@ -1,7 +1,12 @@
 import { useState } from "react";
 
 const LANGS = ["kk_lat", "kk_cyr", "uz", "ru", "en"];
-const LANG_LABELS = { kk_lat: "QQ Lat", kk_cyr: "QQ Кир", uz: "O'zbekcha", ru: "Русский", en: "English" };
+const LANG_LABELS = {
+  kk_cyr: "QQ Кир",
+  uz: "O'zbekcha",
+  ru: "Русский",
+  en: "English",
+};
 
 export { LANGS, LANG_LABELS };
 

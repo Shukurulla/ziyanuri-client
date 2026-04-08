@@ -51,7 +51,7 @@ export default function Header() {
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
               <img
-                src="/logo.jpg"
+                src="/logo.png"
                 alt="Ziya Nuri"
                 className="w-14 rounded-[10px] h-14 object-contain group-hover:scale-110 transition-transform duration-300"
               />

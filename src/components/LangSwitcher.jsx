@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { HiGlobeAlt } from "react-icons/hi";
 
 const languages = [
-  { code: "kk_lat", label: "Qaraqalpaqsha" },
   { code: "kk_cyr", label: "Қарақалпақша" },
   { code: "uz", label: "O'zbekcha" },
   { code: "ru", label: "Русский" },
@@ -15,7 +14,8 @@ export default function LangSwitcher() {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
-  const current = languages.find((l) => l.code === i18n.language) || languages[0];
+  const current =
+    languages.find((l) => l.code === i18n.language) || languages[0];
 
   const changeLang = (code) => {
     i18n.changeLanguage(code);
@@ -47,7 +47,9 @@ export default function LangSwitcher() {
               key={l.code}
               onClick={() => changeLang(l.code)}
               className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 ${
-                l.code === i18n.language ? "text-primary-500 font-medium" : "text-gray-700"
+                l.code === i18n.language
+                  ? "text-primary-500 font-medium"
+                  : "text-gray-700"
               }`}
             >
               {l.label}

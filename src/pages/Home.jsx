@@ -2,9 +2,18 @@ import { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
-  HiArrowRight, HiCalendar, HiChevronLeft, HiChevronRight,
-  HiAcademicCap, HiBookOpen, HiUserGroup, HiGlobe,
-  HiNewspaper, HiLightningBolt, HiStar, HiPlay
+  HiArrowRight,
+  HiCalendar,
+  HiChevronLeft,
+  HiChevronRight,
+  HiAcademicCap,
+  HiBookOpen,
+  HiUserGroup,
+  HiGlobe,
+  HiNewspaper,
+  HiLightningBolt,
+  HiStar,
+  HiPlay,
 } from "react-icons/hi";
 import api from "../api";
 
@@ -13,8 +22,10 @@ function useOnScreen(ref, threshold = 0.15) {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([e]) => { if (e.isIntersecting) setVisible(true); },
-      { threshold }
+      ([e]) => {
+        if (e.isIntersecting) setVisible(true);
+      },
+      { threshold },
     );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
@@ -29,18 +40,23 @@ function StatCounter({ value, label, icon: Icon }) {
   const started = useRef(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !started.current) {
-        started.current = true;
-        let start = 0;
-        const step = Math.ceil(value / 40);
-        const timer = setInterval(() => {
-          start += step;
-          if (start >= value) { setCount(value); clearInterval(timer); }
-          else setCount(start);
-        }, 30);
-      }
-    }, { threshold: 0.5 });
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started.current) {
+          started.current = true;
+          let start = 0;
+          const step = Math.ceil(value / 40);
+          const timer = setInterval(() => {
+            start += step;
+            if (start >= value) {
+              setCount(value);
+              clearInterval(timer);
+            } else setCount(start);
+          }, 30);
+        }
+      },
+      { threshold: 0.5 },
+    );
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [value]);
@@ -63,18 +79,33 @@ function SectionHeader({ title, subtitle, action, actionTo, light }) {
   return (
     <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
       <div>
-        <h2 className={`text-2xl md:text-3xl font-bold mb-2 ${light ? 'text-white' : 'text-primary-800'}`}>
+        <h2
+          className={`text-2xl md:text-3xl font-bold mb-2 ${light ? "text-white" : "text-primary-800"}`}
+        >
           {title}
         </h2>
         <div className="flex items-center gap-3 mt-3">
-          <div className={`w-12 h-1 rounded-full ${light ? 'bg-accent-400' : 'bg-accent-500'}`} />
-          <div className={`w-3 h-3 rotate-45 rounded-sm ${light ? 'bg-accent-400' : 'bg-accent-500'}`} />
-          <div className={`w-8 h-1 rounded-full ${light ? 'bg-accent-400/50' : 'bg-accent-500/50'}`} />
+          <div
+            className={`w-12 h-1 rounded-full ${light ? "bg-accent-400" : "bg-accent-500"}`}
+          />
+          <div
+            className={`w-3 h-3 rotate-45 rounded-sm ${light ? "bg-accent-400" : "bg-accent-500"}`}
+          />
+          <div
+            className={`w-8 h-1 rounded-full ${light ? "bg-accent-400/50" : "bg-accent-500/50"}`}
+          />
         </div>
-        {subtitle && <p className={`mt-4 ${light ? 'text-white/60' : 'text-gray-500'}`}>{subtitle}</p>}
+        {subtitle && (
+          <p className={`mt-4 ${light ? "text-white/60" : "text-gray-500"}`}>
+            {subtitle}
+          </p>
+        )}
       </div>
       {action && (
-        <Link to={actionTo} className={`${light ? 'border-white/30 text-white hover:bg-white hover:text-primary-800' : 'border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white'} border-2 px-5 py-2 rounded-xl font-medium flex items-center gap-2 shrink-0 transition-all duration-300`}>
+        <Link
+          to={actionTo}
+          className={`${light ? "border-white/30 text-white hover:bg-white hover:text-primary-800" : "border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white"} border-2 px-5 py-2 rounded-xl font-medium flex items-center gap-2 shrink-0 transition-all duration-300`}
+        >
           {action} <HiArrowRight />
         </Link>
       )}
@@ -96,28 +127,66 @@ export default function Home() {
   const featuresVisible = useOnScreen(featuresRef);
 
   useEffect(() => {
-    api.get("/banners").then((r) => setBanners(r.data)).catch(() => {});
-    api.get("/news?limit=6").then((r) => setNews(r.data?.data || [])).catch(() => {});
-    api.get("/stats").then((r) => setStats(r.data)).catch(() => {});
-    api.get("/projects?status=current").then((r) => setProjects(r.data?.slice(0, 3) || [])).catch(() => {});
+    api
+      .get("/banners")
+      .then((r) => setBanners(r.data))
+      .catch(() => {});
+    api
+      .get("/news?limit=6")
+      .then((r) => setNews(r.data?.data || []))
+      .catch(() => {});
+    api
+      .get("/stats")
+      .then((r) => setStats(r.data))
+      .catch(() => {});
+    api
+      .get("/projects?status=current")
+      .then((r) => setProjects(r.data?.slice(0, 3) || []))
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
     if (banners.length <= 1) return;
-    const timer = setInterval(() => setCurrentSlide((p) => (p + 1) % banners.length), 6000);
+    const timer = setInterval(
+      () => setCurrentSlide((p) => (p + 1) % banners.length),
+      6000,
+    );
     return () => clearInterval(timer);
   }, [banners.length]);
 
   const lang = i18n.language;
-  const tr = (item) => item.translations?.find((t) => t.lang === lang) || item.translations?.[0] || {};
+  const tr = (item) =>
+    item.translations?.find((t) => t.lang === lang) ||
+    item.translations?.[0] ||
+    {};
 
   const statIcons = [HiAcademicCap, HiBookOpen, HiUserGroup, HiGlobe];
 
   const features = [
-    { icon: HiAcademicCap, title: t("about.feature_education"), desc: t("about.feature_education_desc"), color: "from-blue-500 to-primary-600" },
-    { icon: HiBookOpen, title: t("about.feature_heritage"), desc: t("about.feature_heritage_desc"), color: "from-accent-500 to-accent-700" },
-    { icon: HiGlobe, title: t("about.feature_cooperation"), desc: t("about.feature_cooperation_desc"), color: "from-emerald-500 to-emerald-600" },
-    { icon: HiLightningBolt, title: t("about.feature_innovation"), desc: t("about.feature_innovation_desc"), color: "from-purple-500 to-purple-600" },
+    {
+      icon: HiAcademicCap,
+      title: t("about.feature_education"),
+      desc: t("about.feature_education_desc"),
+      color: "from-blue-500 to-primary-600",
+    },
+    {
+      icon: HiBookOpen,
+      title: t("about.feature_heritage"),
+      desc: t("about.feature_heritage_desc"),
+      color: "from-accent-500 to-accent-700",
+    },
+    {
+      icon: HiGlobe,
+      title: t("about.feature_cooperation"),
+      desc: t("about.feature_cooperation_desc"),
+      color: "from-emerald-500 to-emerald-600",
+    },
+    {
+      icon: HiLightningBolt,
+      title: t("about.feature_innovation"),
+      desc: t("about.feature_innovation_desc"),
+      color: "from-purple-500 to-purple-600",
+    },
   ];
 
   return (
@@ -129,10 +198,16 @@ export default function Home() {
             <div
               key={b._id}
               className={`absolute inset-0 transition-all duration-1000 ${
-                i === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-105"
+                i === currentSlide
+                  ? "opacity-100 scale-100"
+                  : "opacity-0 scale-105"
               }`}
             >
-              <img src={b.image} alt="" className="w-full h-full object-cover" />
+              <img
+                src={b.image}
+                alt=""
+                className="w-full h-full object-cover"
+              />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-primary-900/20" />
               {/* Naqsh overlay */}
               <div className="absolute inset-0 kk-pattern-main opacity-40" />
@@ -155,10 +230,16 @@ export default function Home() {
                       {tr(b).subtitle || t("home.hero_subtitle")}
                     </p>
                     <div className="flex flex-wrap gap-3 sm:gap-4">
-                      <Link to="/about" className="btn-secondary inline-flex items-center gap-2 text-base sm:text-lg px-5 sm:px-8 py-3 sm:py-3.5">
+                      <Link
+                        to="/about"
+                        className="btn-secondary inline-flex items-center gap-2 text-base sm:text-lg px-5 sm:px-8 py-3 sm:py-3.5"
+                      >
                         {t("home.read_more")} <HiArrowRight />
                       </Link>
-                      <Link to="/media" className="inline-flex items-center gap-2 text-white/80 hover:text-white border border-white/20 hover:border-white/40 px-4 sm:px-6 py-3 sm:py-3.5 rounded-xl font-medium transition-all duration-300 hover:bg-white/5">
+                      <Link
+                        to="/media"
+                        className="inline-flex items-center gap-2 text-white/80 hover:text-white border border-white/20 hover:border-white/40 px-4 sm:px-6 py-3 sm:py-3.5 rounded-xl font-medium transition-all duration-300 hover:bg-white/5"
+                      >
                         <HiPlay className="w-5 h-5" /> {t("nav.media")}
                       </Link>
                     </div>
@@ -178,12 +259,21 @@ export default function Home() {
                   <div className="absolute inset-0 bg-white/10 rounded-3xl rotate-45" />
                   <div className="absolute inset-2 border-2 border-accent-500/30 rounded-2xl rotate-45" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-5xl font-extrabold text-white">ZN</span>
+                    <span className="text-5xl font-extrabold text-white">
+                      <img src="/logo.png" className="w-[100px]" />
+                    </span>
                   </div>
                 </div>
-                <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-5">{t("home.hero_title")}</h1>
-                <p className="text-xl md:text-2xl text-white/60 mb-10">{t("home.hero_subtitle")}</p>
-                <Link to="/about" className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-3.5">
+                <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-5">
+                  {t("home.hero_title")}
+                </h1>
+                <p className="text-xl md:text-2xl text-white/60 mb-10">
+                  {t("home.hero_subtitle")}
+                </p>
+                <Link
+                  to="/about"
+                  className="btn-secondary inline-flex items-center gap-2 text-lg px-8 py-3.5"
+                >
                   {t("home.read_more")} <HiArrowRight />
                 </Link>
               </div>
@@ -200,13 +290,19 @@ export default function Home() {
                   key={i}
                   onClick={() => setCurrentSlide(i)}
                   className={`h-2 rounded-full transition-all duration-500 ${
-                    i === currentSlide ? "bg-accent-500 w-10" : "bg-white/30 w-2 hover:bg-white/50"
+                    i === currentSlide
+                      ? "bg-accent-500 w-10"
+                      : "bg-white/30 w-2 hover:bg-white/50"
                   }`}
                 />
               ))}
             </div>
             <button
-              onClick={() => setCurrentSlide((p) => (p - 1 + banners.length) % banners.length)}
+              onClick={() =>
+                setCurrentSlide(
+                  (p) => (p - 1 + banners.length) % banners.length,
+                )
+              }
               className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-white hover:bg-accent-500 transition-all duration-300 border border-white/10"
             >
               <HiChevronLeft size={24} />
@@ -223,7 +319,10 @@ export default function Home() {
         {/* Bottom wave */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg viewBox="0 0 1440 60" className="w-full h-auto">
-            <path fill="#ffffff" d="M0,60 L0,30 Q360,0 720,30 Q1080,60 1440,30 L1440,60Z" />
+            <path
+              fill="#ffffff"
+              d="M0,60 L0,30 Q360,0 720,30 Q1080,60 1440,30 L1440,60Z"
+            />
           </svg>
         </div>
       </section>
@@ -231,15 +330,26 @@ export default function Home() {
       {/* ═══ Features strip ═══ */}
       <section ref={featuresRef} className="py-10 -mt-6 relative z-10">
         <div className="container-main">
-          <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 ${featuresVisible ? 'stagger-children' : ''}`}>
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 ${featuresVisible ? "stagger-children" : ""}`}
+          >
             {features.map((f, i) => (
-              <div key={i} className="bg-white rounded-2xl p-4 sm:p-5 group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex items-start gap-3 sm:gap-4">
-                <div className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br ${f.color} rounded-xl flex items-center justify-center text-white shadow-lg shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
+              <div
+                key={i}
+                className="bg-white rounded-2xl p-4 sm:p-5 group shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100 flex items-start gap-3 sm:gap-4"
+              >
+                <div
+                  className={`w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br ${f.color} rounded-xl flex items-center justify-center text-white shadow-lg shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}
+                >
                   <f.icon className="w-5 h-5 sm:w-6 sm:h-6" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-primary-800 text-sm mb-0.5">{f.title}</h3>
-                  <p className="text-xs text-gray-500 leading-relaxed">{f.desc}</p>
+                  <h3 className="font-bold text-primary-800 text-sm mb-0.5">
+                    {f.title}
+                  </h3>
+                  <p className="text-xs text-gray-500 leading-relaxed">
+                    {f.desc}
+                  </p>
                 </div>
               </div>
             ))}
@@ -280,7 +390,10 @@ export default function Home() {
       <div className="section-divider" />
 
       {/* ═══ Latest News ═══ */}
-      <section ref={newsRef} className="py-20 bg-gradient-to-b from-sand-50 to-white">
+      <section
+        ref={newsRef}
+        className="py-20 bg-gradient-to-b from-sand-50 to-white"
+      >
         <div className="container-main">
           <SectionHeader
             title={t("home.latest_news")}
@@ -289,9 +402,15 @@ export default function Home() {
           />
 
           {news.length > 0 ? (
-            <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7 ${newsVisible ? 'stagger-children' : ''}`}>
+            <div
+              className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7 ${newsVisible ? "stagger-children" : ""}`}
+            >
               {news.map((n) => (
-                <Link key={n._id} to={`/news/${n.slug}`} className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 border border-gray-100/80">
+                <Link
+                  key={n._id}
+                  to={`/news/${n.slug}`}
+                  className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 border border-gray-100/80"
+                >
                   <div className="relative h-44 sm:h-52 overflow-hidden">
                     {n.image ? (
                       <img
@@ -322,7 +441,8 @@ export default function Home() {
                       {tr(n).summary || ""}
                     </p>
                     <span className="inline-flex items-center gap-1.5 text-accent-500 text-sm font-semibold mt-4 group-hover:gap-3 transition-all duration-300">
-                      {t("home.read_more")} <HiArrowRight className="w-3.5 h-3.5" />
+                      {t("home.read_more")}{" "}
+                      <HiArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </Link>
@@ -365,7 +485,11 @@ export default function Home() {
                 >
                   {p.image ? (
                     <div className="h-44 sm:h-52 overflow-hidden">
-                      <img src={p.image} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                      <img
+                        src={p.image}
+                        alt=""
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-primary-900/80 to-transparent" />
                     </div>
                   ) : (
@@ -375,13 +499,16 @@ export default function Home() {
                   )}
                   <div className="p-4 sm:p-6 relative">
                     <span className="badge bg-accent-500/20 text-accent-400 border border-accent-500/30 mb-3">
-                      {p.status === "completed" ? t("projects.completed") : t("projects.current")}
+                      {p.status === "completed"
+                        ? t("projects.completed")
+                        : t("projects.current")}
                     </span>
                     <h3 className="font-bold text-lg mt-2 group-hover:text-accent-400 transition-colors leading-snug">
                       {tr(p).title || "—"}
                     </h3>
                     <span className="inline-flex items-center gap-1.5 text-accent-400/70 text-sm font-medium mt-4 group-hover:gap-3 group-hover:text-accent-400 transition-all duration-300">
-                      {t("home.read_more")} <HiArrowRight className="w-3.5 h-3.5" />
+                      {t("home.read_more")}{" "}
+                      <HiArrowRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </Link>
@@ -410,7 +537,10 @@ export default function Home() {
             <p className="text-gray-500 mb-10 leading-relaxed">
               {t("contact.hero_desc")}
             </p>
-            <Link to="/contact" className="btn-primary inline-flex items-center gap-2 text-lg px-10 py-4 rounded-2xl">
+            <Link
+              to="/contact"
+              className="btn-primary inline-flex items-center gap-2 text-lg px-10 py-4 rounded-2xl"
+            >
               {t("contact.title")} <HiArrowRight />
             </Link>
           </div>
