@@ -303,13 +303,13 @@ export default function Home() {
                   (p) => (p - 1 + banners.length) % banners.length,
                 )
               }
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-white hover:bg-accent-500 transition-all duration-300 border border-white/10"
+              className="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/20 backdrop-blur-sm rounded-xl items-center justify-center text-white hover:bg-accent-500 transition-all duration-300 border border-white/10"
             >
               <HiChevronLeft size={24} />
             </button>
             <button
               onClick={() => setCurrentSlide((p) => (p + 1) % banners.length)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-white hover:bg-accent-500 transition-all duration-300 border border-white/10"
+              className="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-black/20 backdrop-blur-sm rounded-xl items-center justify-center text-white hover:bg-accent-500 transition-all duration-300 border border-white/10"
             >
               <HiChevronRight size={24} />
             </button>
