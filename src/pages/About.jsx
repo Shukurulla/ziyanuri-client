@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { HiAcademicCap, HiGlobe, HiUserGroup, HiLightBulb } from "react-icons/hi";
 import api from "../api";
+import stripHtml from "../utils/stripHtml";
 
 export default function About() {
   const { t, i18n } = useTranslation();
@@ -121,7 +122,7 @@ export default function About() {
                     {tr(l).fullName || "—"}
                   </h3>
                   {tr(l).bio && (
-                    <p className="text-gray-500 text-sm mt-3 line-clamp-3 leading-relaxed">{tr(l).bio}</p>
+                    <p className="text-gray-500 text-sm mt-3 line-clamp-3 leading-relaxed">{stripHtml(tr(l).bio)}</p>
                   )}
                 </div>
               ))}

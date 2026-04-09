@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { HiCalendar, HiArrowRight, HiNewspaper } from "react-icons/hi";
 import api from "../api";
+import stripHtml from "../utils/stripHtml";
 
 export default function News() {
   const { t, i18n } = useTranslation();
@@ -66,7 +67,7 @@ export default function News() {
                     {tr(n).title || "—"}
                   </h3>
                   <p className="text-gray-400 text-sm line-clamp-2 leading-relaxed">
-                    {tr(n).summary || tr(n).content?.replace(/<[^>]*>/g, '') || ""}
+                    {stripHtml(tr(n).summary || tr(n).content)}
                   </p>
                   <span className="inline-flex items-center gap-1.5 text-accent-500 text-sm font-semibold mt-4 group-hover:gap-3 transition-all duration-300">
                     {t("home.read_more")} <HiArrowRight className="w-3.5 h-3.5" />

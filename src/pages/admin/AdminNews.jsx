@@ -103,7 +103,7 @@ export default function AdminNews() {
               <div key={tr.lang} className="p-4 bg-gray-50 rounded-xl">
                 <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{tr.lang}</span>
                 <h3 className="font-semibold text-gray-900 mt-1">{tr.title || "—"}</h3>
-                {tr.summary && <p className="text-sm text-gray-500 mt-1">{tr.summary}</p>}
+                {tr.summary && <p className="text-sm text-gray-500 mt-1">{tr.summary.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ")}</p>}
                 {tr.content && <div className="mt-2 text-sm prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: tr.content }} />}
               </div>
             ))}

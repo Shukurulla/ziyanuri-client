@@ -50,7 +50,7 @@ export default function AdminBanners() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium text-gray-900">{item.translations?.[0]?.title || "Banner"}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">{item.translations?.[0]?.subtitle || ""}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">{(item.translations?.[0]?.subtitle || "").replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ")}</p>
                 </div>
                 <span className={`px-2 py-0.5 rounded text-[10px] font-medium ${item.active ? "bg-emerald-50 text-emerald-700" : "bg-gray-100 text-gray-500"}`}>{item.active ? "Faol" : "Nofaol"}</span>
               </div>
@@ -76,7 +76,7 @@ export default function AdminBanners() {
             <div className="border-t pt-5"><LangTabs activeLang={activeLang} onChange={setActiveLang} /></div>
             {LANGS.filter((l) => l === activeLang).map((lang) => {
               const tr = form.translations.find((t) => t.lang === lang);
-              return (<div key={lang} className="space-y-4"><Field label="Sarlavha"><input value={tr?.title || ""} onChange={(e) => updateTr(lang, "title", e.target.value)} className={inputClass} /></Field><Field label="Qo'shimcha matn"><RichEditor value={tr?.subtitle || ""} onChange={(val) => updateTr(lang, "subtitle", val)} /></Field></div>);
+              return (<div key={lang} className="space-y-4"><Field label="Sarlavha"><input value={tr?.title || ""} onChange={(e) => updateTr(lang, "title", e.target.value)} className={inputClass} /></Field><Field label="Qo'shimcha matn"><input value={tr?.subtitle || ""} onChange={(e) => updateTr(lang, "subtitle", e.target.value)} className={inputClass} /></Field></div>);
             })}
             <div className="flex gap-3 pt-4 border-t pt-4">
               <button onClick={save} className="flex-1 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl hover:bg-gray-800">{editing ? "Saqlash" : "Yaratish"}</button>

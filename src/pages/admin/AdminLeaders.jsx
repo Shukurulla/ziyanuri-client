@@ -48,7 +48,7 @@ export default function AdminLeaders() {
             {item.photo ? <img src={item.photo} alt="" className="w-24 h-24 rounded-2xl mx-auto object-cover border-2 border-gray-100" /> : <div className="w-24 h-24 rounded-2xl mx-auto bg-gray-100 flex items-center justify-center"><HiUserGroup className="w-8 h-8 text-gray-300" /></div>}
             <h3 className="font-semibold text-gray-900 mt-4">{item.translations?.[0]?.fullName || "—"}</h3>
             <p className="text-sm text-gray-500 mt-0.5">{item.translations?.[0]?.role || ""}</p>
-            {item.translations?.[0]?.bio && <p className="text-xs text-gray-400 mt-2 line-clamp-2">{item.translations[0].bio}</p>}
+            {item.translations?.[0]?.bio && <p className="text-xs text-gray-400 mt-2 line-clamp-2">{item.translations[0].bio.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ")}</p>}
             <div className="flex gap-1 mt-4 pt-3 border-t border-gray-100 justify-center">
               <button onClick={() => openEdit(item)} className="py-1.5 px-4 text-xs font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg flex items-center gap-1"><HiPencil className="w-3.5 h-3.5" /> Tahrirlash</button>
               <button onClick={() => askRemove(item._id)} className="py-1.5 px-3 text-xs text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg"><HiTrash className="w-3.5 h-3.5" /></button>
