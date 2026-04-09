@@ -138,7 +138,7 @@ export default function Footer() {
                       />
                     </svg>
                   </span>
-                  +998 61 222-22-22
+                  +998 93 486-66-20
                 </li>
                 <li className="flex items-center gap-3">
                   <span className="w-8 h-8 bg-accent-500/15 rounded-lg flex items-center justify-center shrink-0 text-accent-400">
