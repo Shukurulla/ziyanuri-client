@@ -156,7 +156,7 @@ export default function Footer() {
                       />
                     </svg>
                   </span>
-                  info@ziyanuri.uz
+                  kr_manaviyat@exat.uz
                 </li>
               </ul>
             </div>

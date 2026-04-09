@@ -15,7 +15,7 @@ export default function AdminEvents() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(null);
-  const [activeLang, setActiveLang] = useState("kk_lat");
+  const [activeLang, setActiveLang] = useState("kk_cyr");
   const toast = useToast();
   const [confirmState, setConfirmState] = useState({ open: false, id: null });
 

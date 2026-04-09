@@ -17,7 +17,7 @@ export default function AdminMedia() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [form, setForm] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [activeLang, setActiveLang] = useState("kk_lat");
+  const [activeLang, setActiveLang] = useState("kk_cyr");
   const toast = useToast();
   const [confirmState, setConfirmState] = useState({ open: false, id: null });
 

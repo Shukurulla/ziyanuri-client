@@ -216,14 +216,14 @@ export default function Home() {
 
               <div className="absolute inset-0 flex items-end pb-24 md:pb-32">
                 <div className="container-main">
-                  <div className="max-w-2xl animate-fade-in-up">
+                  <div className="w-2xl animate-fade-in-up">
                     <div className="flex items-center gap-3 mb-5">
                       <div className="w-10 h-1 bg-accent-500 rounded-full" />
                       <span className="text-accent-400 text-sm font-medium uppercase tracking-[0.2em]">
                         {t("home.hero_subtitle")}
                       </span>
                     </div>
-                    <h1 className="text-xl sm:text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-5 leading-[1.15]">
+                    <h1 className="text-xl sm:text-2xl md:text-5xl lg:text-6xl font-extrabold text-white mb-5 leading-[1.15]">
                       {tr(b).title || t("home.hero_title")}
                     </h1>
                     <p className="text-sm sm:text-base md:text-lg lg:text-xl text-white/70 mb-8 leading-relaxed">

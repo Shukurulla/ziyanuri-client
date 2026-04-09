@@ -5,6 +5,7 @@ import Drawer from "../../components/admin/Drawer";
 import LangTabs, { LANGS } from "../../components/admin/LangTabs";
 import { Field, inputClass } from "../../components/admin/FormField";
 import ImageUpload from "../../components/admin/ImageUpload";
+import RichEditor from "../../components/admin/RichEditor";
 import ConfirmModal from "../../components/admin/ConfirmModal";
 import { useToast } from "../../components/admin/Toast";
 
@@ -13,7 +14,7 @@ export default function AdminLeaders() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(null);
-  const [activeLang, setActiveLang] = useState("kk_lat");
+  const [activeLang, setActiveLang] = useState("kk_cyr");
   const toast = useToast();
   const [confirmState, setConfirmState] = useState({ open: false, id: null });
 
@@ -65,7 +66,7 @@ export default function AdminLeaders() {
             <div className="border-t pt-5"><LangTabs activeLang={activeLang} onChange={setActiveLang} /></div>
             {LANGS.filter((l) => l === activeLang).map((lang) => {
               const tr = form.translations.find((t) => t.lang === lang);
-              return (<div key={lang} className="space-y-4"><Field label="To'liq ism"><input value={tr?.fullName || ""} onChange={(e) => updateTr(lang, "fullName", e.target.value)} className={inputClass} /></Field><Field label="Lavozim"><input value={tr?.role || ""} onChange={(e) => updateTr(lang, "role", e.target.value)} className={inputClass} /></Field><Field label="Tarjimai hol"><textarea rows={4} value={tr?.bio || ""} onChange={(e) => updateTr(lang, "bio", e.target.value)} className={`${inputClass} resize-none`} /></Field></div>);
+              return (<div key={lang} className="space-y-4"><Field label="To'liq ism"><input value={tr?.fullName || ""} onChange={(e) => updateTr(lang, "fullName", e.target.value)} className={inputClass} /></Field><Field label="Lavozim"><input value={tr?.role || ""} onChange={(e) => updateTr(lang, "role", e.target.value)} className={inputClass} /></Field><Field label="Tarjimai hol"><RichEditor value={tr?.bio || ""} onChange={(val) => updateTr(lang, "bio", val)} /></Field></div>);
             })}
             <div className="flex gap-3 pt-4 border-t pt-4">
               <button onClick={save} className="flex-1 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl hover:bg-gray-800">{editing ? "Saqlash" : "Yaratish"}</button>

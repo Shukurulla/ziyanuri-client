@@ -16,7 +16,7 @@ export default function AdminNews() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(null);
-  const [activeLang, setActiveLang] = useState("kk_lat");
+  const [activeLang, setActiveLang] = useState("kk_cyr");
   const [preview, setPreview] = useState(null);
   const toast = useToast();
   const [confirmState, setConfirmState] = useState({ open: false, id: null });
@@ -126,7 +126,7 @@ export default function AdminNews() {
               return (
                 <div key={lang} className="space-y-4">
                   <Field label="Sarlavha"><input value={tr?.title || ""} onChange={(e) => updateTr(lang, "title", e.target.value)} className={inputClass} /></Field>
-                  <Field label="Qisqa tavsif"><textarea rows={2} value={tr?.summary || ""} onChange={(e) => updateTr(lang, "summary", e.target.value)} className={`${inputClass} resize-none`} /></Field>
+                  <Field label="Qisqa tavsif"><RichEditor value={tr?.summary || ""} onChange={(val) => updateTr(lang, "summary", val)} /></Field>
                   <Field label="To'liq matn"><RichEditor value={tr?.content || ""} onChange={(val) => updateTr(lang, "content", val)} /></Field>
                 </div>
               );
