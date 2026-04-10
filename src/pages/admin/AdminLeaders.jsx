@@ -22,10 +22,10 @@ export default function AdminLeaders() {
   const load = () => api.get("/leaders").then((r) => setItems(r.data));
   useEffect(() => { load(); }, []);
 
-  const openNew = () => { setForm({ photo: "", position: 0, current: false, translations: LANGS.map((lang) => ({ lang, fullName: "", role: "", bio: "" })) }); setEditing(null); setDrawerOpen(true); };
+  const openNew = () => { setForm({ photo: "", position: 0, current: false, translations: LANGS.map((lang) => ({ lang, fullName: "", role: "", tuman: "", bio: "" })) }); setEditing(null); setDrawerOpen(true); };
   const openEdit = (item) => {
     setEditing(item._id);
-    setForm({ photo: item.photo || "", position: item.position, current: !!item.current, translations: LANGS.map((lang) => { const ex = item.translations.find((t) => t.lang === lang); return { lang, fullName: ex?.fullName || "", role: ex?.role || "", bio: ex?.bio || "" }; }) });
+    setForm({ photo: item.photo || "", position: item.position, current: !!item.current, translations: LANGS.map((lang) => { const ex = item.translations.find((t) => t.lang === lang); return { lang, fullName: ex?.fullName || "", role: ex?.role || "", tuman: ex?.tuman || "", bio: ex?.bio || "" }; }) });
     setDrawerOpen(true);
   };
   const save = async () => { try { if (editing) await api.put(`/leaders/${editing}`, form); else await api.post("/leaders", form); toast.success("Saqlandi"); setDrawerOpen(false); load(); } catch (err) { toast.error(err.response?.data?.error || "Xatolik"); } };
@@ -58,6 +58,7 @@ export default function AdminLeaders() {
             {item.photo ? <img src={item.photo} alt="" className="w-24 h-24 rounded-2xl mx-auto object-cover border-2 border-gray-100" /> : <div className="w-24 h-24 rounded-2xl mx-auto bg-gray-100 flex items-center justify-center"><HiUserGroup className="w-8 h-8 text-gray-300" /></div>}
             <h3 className="font-semibold text-gray-900 mt-4">{item.translations?.[0]?.fullName || "—"}</h3>
             <p className="text-sm text-gray-500 mt-0.5">{item.translations?.[0]?.role || ""}</p>
+            {item.translations?.[0]?.tuman && <p className="text-xs text-gray-400 mt-0.5">{item.translations[0].tuman}</p>}
             {item.translations?.[0]?.bio && <p className="text-xs text-gray-400 mt-2 line-clamp-2">{item.translations[0].bio.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ")}</p>}
             <div className="flex gap-1 mt-4 pt-3 border-t border-gray-100 justify-center">
               <button onClick={() => openEdit(item)} className="py-1.5 px-4 text-xs font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg flex items-center gap-1"><HiPencil className="w-3.5 h-3.5" /> Tahrirlash</button>
@@ -83,7 +84,7 @@ export default function AdminLeaders() {
             <div className="border-t pt-5"><LangTabs activeLang={activeLang} onChange={setActiveLang} /></div>
             {LANGS.filter((l) => l === activeLang).map((lang) => {
               const tr = form.translations.find((t) => t.lang === lang);
-              return (<div key={lang} className="space-y-4"><Field label="To'liq ism"><input value={tr?.fullName || ""} onChange={(e) => updateTr(lang, "fullName", e.target.value)} className={inputClass} /></Field><Field label="Lavozim"><input value={tr?.role || ""} onChange={(e) => updateTr(lang, "role", e.target.value)} className={inputClass} /></Field><Field label="Tarjimai hol"><RichEditor value={tr?.bio || ""} onChange={(val) => updateTr(lang, "bio", val)} /></Field></div>);
+              return (<div key={lang} className="space-y-4"><Field label="To'liq ism"><input value={tr?.fullName || ""} onChange={(e) => updateTr(lang, "fullName", e.target.value)} className={inputClass} /></Field><Field label="Lavozim"><input value={tr?.role || ""} onChange={(e) => updateTr(lang, "role", e.target.value)} className={inputClass} /></Field><Field label="Tuman"><input value={tr?.tuman || ""} onChange={(e) => updateTr(lang, "tuman", e.target.value)} className={inputClass} /></Field><Field label="Tarjimai hol"><RichEditor value={tr?.bio || ""} onChange={(val) => updateTr(lang, "bio", val)} /></Field></div>);
             })}
             <div className="flex gap-3 pt-4 border-t pt-4">
               <button onClick={save} className="flex-1 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl hover:bg-gray-800">{editing ? "Saqlash" : "Yaratish"}</button>

@@ -122,6 +122,9 @@ export default function About() {
                   <h3 className="font-bold text-lg text-primary-800 mt-3">
                     {tr(l).fullName || "—"}
                   </h3>
+                  {tr(l).tuman && (
+                    <p className="text-sm text-accent-600 font-medium mt-1">{tr(l).tuman}</p>
+                  )}
                   {tr(l).bio && (
                     <p className="text-gray-500 text-sm mt-3 line-clamp-3 leading-relaxed">{stripHtml(tr(l).bio)}</p>
                   )}
@@ -171,6 +174,9 @@ export default function About() {
                   <h3 className="font-bold text-lg text-primary-800 mt-3">
                     {tr(l).fullName || "—"}
                   </h3>
+                  {tr(l).tuman && (
+                    <p className="text-sm text-accent-600 font-medium mt-1">{tr(l).tuman}</p>
+                  )}
                   {tr(l).bio && (
                     <p className="text-gray-500 text-sm mt-3 line-clamp-3 leading-relaxed">{stripHtml(tr(l).bio)}</p>
                   )}
