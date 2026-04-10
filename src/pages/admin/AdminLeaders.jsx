@@ -15,16 +15,17 @@ export default function AdminLeaders() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(null);
   const [activeLang, setActiveLang] = useState("kk_cyr");
+  const [tab, setTab] = useState("former");
   const toast = useToast();
   const [confirmState, setConfirmState] = useState({ open: false, id: null });
 
   const load = () => api.get("/leaders").then((r) => setItems(r.data));
   useEffect(() => { load(); }, []);
 
-  const openNew = () => { setForm({ photo: "", position: 0, translations: LANGS.map((lang) => ({ lang, fullName: "", role: "", bio: "" })) }); setEditing(null); setDrawerOpen(true); };
+  const openNew = () => { setForm({ photo: "", position: 0, current: false, translations: LANGS.map((lang) => ({ lang, fullName: "", role: "", bio: "" })) }); setEditing(null); setDrawerOpen(true); };
   const openEdit = (item) => {
     setEditing(item._id);
-    setForm({ photo: item.photo || "", position: item.position, translations: LANGS.map((lang) => { const ex = item.translations.find((t) => t.lang === lang); return { lang, fullName: ex?.fullName || "", role: ex?.role || "", bio: ex?.bio || "" }; }) });
+    setForm({ photo: item.photo || "", position: item.position, current: !!item.current, translations: LANGS.map((lang) => { const ex = item.translations.find((t) => t.lang === lang); return { lang, fullName: ex?.fullName || "", role: ex?.role || "", bio: ex?.bio || "" }; }) });
     setDrawerOpen(true);
   };
   const save = async () => { try { if (editing) await api.put(`/leaders/${editing}`, form); else await api.post("/leaders", form); toast.success("Saqlandi"); setDrawerOpen(false); load(); } catch (err) { toast.error(err.response?.data?.error || "Xatolik"); } };
@@ -42,8 +43,17 @@ export default function AdminLeaders() {
         <button onClick={openNew} className="inline-flex items-center gap-2 px-4 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-xl hover:bg-gray-800"><HiPlus className="w-4 h-4" /> Yangi</button>
       </div>
 
+      <div className="flex gap-1 p-1 bg-gray-100 rounded-xl w-fit">
+        <button onClick={() => setTab("former")} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${tab === "former" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+          Sobiq rahbarlar ({items.filter((i) => !i.current).length})
+        </button>
+        <button onClick={() => setTab("current")} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${tab === "current" ? "bg-white text-gray-900 shadow-sm" : "text-gray-500 hover:text-gray-700"}`}>
+          Hozirgi kunda ({items.filter((i) => i.current).length})
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {items.map((item) => (
+        {items.filter((i) => tab === "current" ? i.current : !i.current).map((item) => (
           <div key={item._id} className="bg-white rounded-2xl border border-gray-200 p-6 text-center hover:shadow-md transition-shadow">
             {item.photo ? <img src={item.photo} alt="" className="w-24 h-24 rounded-2xl mx-auto object-cover border-2 border-gray-100" /> : <div className="w-24 h-24 rounded-2xl mx-auto bg-gray-100 flex items-center justify-center"><HiUserGroup className="w-8 h-8 text-gray-300" /></div>}
             <h3 className="font-semibold text-gray-900 mt-4">{item.translations?.[0]?.fullName || "—"}</h3>
@@ -55,7 +65,7 @@ export default function AdminLeaders() {
             </div>
           </div>
         ))}
-        {items.length === 0 && <div className="col-span-full py-16 text-center"><HiUserGroup className="w-12 h-12 text-gray-200 mx-auto mb-3" /><p className="text-gray-400 text-sm">Rahbarlar yo'q</p></div>}
+        {items.filter((i) => tab === "current" ? i.current : !i.current).length === 0 && <div className="col-span-full py-16 text-center"><HiUserGroup className="w-12 h-12 text-gray-200 mx-auto mb-3" /><p className="text-gray-400 text-sm">{tab === "current" ? "Hozirgi xodimlar yo'q" : "Sobiq rahbarlar yo'q"}</p></div>}
       </div>
 
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} title={editing ? "Tahrirlash" : "Yangi rahbar"}>
@@ -63,6 +73,13 @@ export default function AdminLeaders() {
           <div className="space-y-5">
             <ImageUpload value={form.photo} onChange={(v) => setForm({ ...form, photo: v })} label="Foto" />
             <Field label="Pozitsiya (tartib)"><input type="number" value={form.position} onChange={(e) => setForm({ ...form, position: Number(e.target.value) })} className={inputClass} /></Field>
+            <label className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl cursor-pointer">
+              <input type="checkbox" checked={form.current} onChange={(e) => setForm({ ...form, current: e.target.checked })} className="w-4 h-4 rounded" />
+              <div>
+                <span className="text-sm font-medium text-gray-700">Hozirgi kunda ish olib bormoqda</span>
+                <p className="text-xs text-gray-400">Belgilansa — qala/rayon bo'lim boshliqlari ro'yxatida ko'rinadi</p>
+              </div>
+            </label>
             <div className="border-t pt-5"><LangTabs activeLang={activeLang} onChange={setActiveLang} /></div>
             {LANGS.filter((l) => l === activeLang).map((lang) => {
               const tr = form.translations.find((t) => t.lang === lang);

@@ -9,6 +9,9 @@
 .rich-editor .ql-editor.ql-blank::before { @apply text-gray-400 not-italic; }
 
 @layer base {
+  html, body {
+    @apply overflow-x-hidden;
+  }
   body {
     @apply font-sans text-gray-800 bg-white antialiased;
   }

@@ -67,7 +67,7 @@ export default function About() {
       {/* Page Content */}
       {page && tr(page)?.content && (
         <section className="py-20">
-          <div className="container-main max-w-4xl">
+          <div className="container-main max-w-6xl">
             <div className="relative">
               <div className="absolute -left-4 top-0 bottom-0 w-1.5 rounded-full bg-gradient-to-b from-accent-500 via-primary-500 to-accent-500 opacity-30" />
               <div
@@ -83,13 +83,14 @@ export default function About() {
       <div className="section-divider" />
 
       {/* Leadership */}
-      {leaders.length > 0 && (
+      {leaders.filter((l) => !l.current).length > 0 && (
         <section className="py-24 bg-gradient-to-b from-sand-50 to-white relative overflow-hidden">
           <div className="absolute inset-0 kk-pattern-horn opacity-40" />
           <div className="absolute right-0 top-0 bottom-0 w-10 kk-border-vertical opacity-20" />
           <div className="container-main relative z-10">
             <div className="text-center mb-14">
               <h2 className="text-2xl md:text-3xl font-bold text-primary-800">{t("about.leadership")}</h2>
+              <p className="text-gray-500 mt-3 max-w-2xl mx-auto">{t("about.leadership_desc")}</p>
               <div className="flex items-center justify-center gap-3 mt-4">
                 <div className="w-12 h-1 bg-accent-500 rounded-full" />
                 <div className="w-3 h-3 rotate-45 bg-accent-500 rounded-sm" />
@@ -97,7 +98,56 @@ export default function About() {
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 stagger-children">
-              {leaders.map((l) => (
+              {leaders.filter((l) => !l.current).map((l) => (
+                <div key={l._id} className="bg-white rounded-2xl p-8 text-center group shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100">
+                  <div className="relative w-36 h-36 mx-auto mb-6">
+                    <div className="absolute -inset-2 rounded-full border-2 border-dashed border-accent-500/30 group-hover:rotate-12 transition-transform duration-700" />
+                    {l.photo ? (
+                      <img
+                        src={l.photo}
+                        alt=""
+                        className="w-full h-full rounded-full object-cover ring-4 ring-white shadow-lg group-hover:scale-105 transition-all duration-500"
+                      />
+                    ) : (
+                      <div className="w-full h-full rounded-full bg-gradient-to-br from-primary-100 to-sand-200 flex items-center justify-center text-primary-400 ring-4 ring-white shadow-lg">
+                        <HiUserGroup className="w-12 h-12" />
+                      </div>
+                    )}
+                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2">
+                      <span className="bg-gradient-to-r from-accent-500 to-accent-600 text-white text-xs px-4 py-1.5 rounded-full font-medium whitespace-nowrap shadow-lg shadow-accent-500/30">
+                        {tr(l).role || ""}
+                      </span>
+                    </div>
+                  </div>
+                  <h3 className="font-bold text-lg text-primary-800 mt-3">
+                    {tr(l).fullName || "—"}
+                  </h3>
+                  {tr(l).bio && (
+                    <p className="text-gray-500 text-sm mt-3 line-clamp-3 leading-relaxed">{stripHtml(tr(l).bio)}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Current staff (district/region heads) */}
+      {leaders.filter((l) => l.current).length > 0 && (
+        <section className="py-24 bg-white relative overflow-hidden">
+          <div className="absolute inset-0 kk-pattern-main opacity-20" />
+          <div className="container-main relative z-10">
+            <div className="text-center mb-14">
+              <h2 className="text-2xl md:text-3xl font-bold text-primary-800">{t("about.current_staff")}</h2>
+              <p className="text-gray-500 mt-3 max-w-2xl mx-auto">{t("about.current_staff_desc")}</p>
+              <div className="flex items-center justify-center gap-3 mt-4">
+                <div className="w-12 h-1 bg-accent-500 rounded-full" />
+                <div className="w-3 h-3 rotate-45 bg-accent-500 rounded-sm" />
+                <div className="w-12 h-1 bg-accent-500 rounded-full" />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 stagger-children">
+              {leaders.filter((l) => l.current).map((l) => (
                 <div key={l._id} className="bg-white rounded-2xl p-8 text-center group shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100">
                   <div className="relative w-36 h-36 mx-auto mb-6">
                     <div className="absolute -inset-2 rounded-full border-2 border-dashed border-accent-500/30 group-hover:rotate-12 transition-transform duration-700" />
